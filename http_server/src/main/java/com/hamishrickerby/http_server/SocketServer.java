@@ -11,6 +11,7 @@ public class SocketServer {
         try {
             final AsynchronousServerSocketChannel listener = AsynchronousServerSocketChannel.open();
             listener.bind(new InetSocketAddress(portNumber));
+            listener.accept(null, new HTTPCompletionHandler());
         } catch (Exception e) {
             e.printStackTrace();
         }
