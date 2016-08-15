@@ -6,7 +6,7 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 /**
  * Created by rickerbh on 14/08/2016.
  */
-public class SocketServer extends Thread {
+public class SocketServer {
     public SocketServer(int portNumber) {
         try {
             final AsynchronousServerSocketChannel listener = AsynchronousServerSocketChannel.open();
