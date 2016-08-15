@@ -7,11 +7,11 @@ import java.nio.channels.AsynchronousServerSocketChannel;
  * Created by rickerbh on 14/08/2016.
  */
 public class SocketServer extends Thread {
-    public SocketServer() {
+    public SocketServer(int portNumber) {
         try {
             final AsynchronousServerSocketChannel listener = AsynchronousServerSocketChannel.open();
-            listener.bind(new InetSocketAddress(5000));
-       } catch (Exception e) {
+            listener.bind(new InetSocketAddress(portNumber));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

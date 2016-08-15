@@ -11,12 +11,13 @@ import java.net.Socket;
 public class SocketServerTest extends TestCase {
 
     public void testConnectionSuccess() {
-        SocketServer server = new SocketServer();
+        int portNumber = 5000;
+        SocketServer server = new SocketServer(portNumber);
 
         String address = "localhost";
         Socket socket = null;
         try {
-            socket = new Socket(address, 5000);
+            socket = new Socket(address, portNumber);
         } catch (IOException e) {
             e.printStackTrace();
             assertNull(e);
