@@ -5,7 +5,9 @@ package com.hamishrickerby.http_server;
  */
 public class App {
     public static void main(String[] args) {
-        SocketServer server = new SocketServer(5000);
+        AppArguments arguments = new AppArguments(args);
+        Integer port = Integer.getInteger(arguments.getOrDefault("-p", "5000"));
+        SocketServer server = new SocketServer(port);
         try {
             Thread.sleep(5000);
         } catch (Exception e) {
