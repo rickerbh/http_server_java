@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.AsynchronousServerSocketChannel;
 
@@ -7,13 +8,21 @@ import java.nio.channels.AsynchronousServerSocketChannel;
  * Created by rickerbh on 14/08/2016.
  */
 public class SocketServer {
-    public SocketServer(int portNumber) {
-        try {
-            final AsynchronousServerSocketChannel listener = AsynchronousServerSocketChannel.open();
-            listener.bind(new InetSocketAddress(portNumber));
-            listener.accept(null, new HTTPCompletionHandler());
-        } catch (Exception e) {
-            e.printStackTrace();
+    final AsynchronousServerSocketChannel listener;
+
+    public SocketServer(int portNumber) throws IOException {
+        listener = AsynchronousServerSocketChannel.open();
+        listener.bind(new InetSocketAddress(portNumber));
+        listener.accept(null, new HTTPCompletionHandler());
+    }
+
+    public void close() {
+        if (listener.isOpen()) {
+            try {
+                listener.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
