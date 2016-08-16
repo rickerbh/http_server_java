@@ -7,11 +7,14 @@ public class App {
     public static void main(String[] args) {
         AppArguments arguments = new AppArguments(args);
         Integer port = Integer.parseInt(arguments.getOrDefault("-p", "5000"));
+        SocketServer server = null;
         try {
-            SocketServer server = new SocketServer(port);
+            server = new SocketServer(port);
             Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            server.close();
         }
     }
 }
