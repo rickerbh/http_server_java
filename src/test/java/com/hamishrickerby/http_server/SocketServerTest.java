@@ -10,7 +10,7 @@ import java.net.Socket;
  */
 public class SocketServerTest extends TestCase {
 
-    public void testConnectionSuccess() {
+    public void testConnectionIsEstablishedSuccessfully() {
         int portNumber = 5000;
         SocketServer server = new SocketServer(portNumber);
 
