@@ -76,7 +76,8 @@ public class MockAsynchronousSocketChannel extends AsynchronousSocketChannel {
     @Override
     public Future<Integer> read(ByteBuffer dst) {
         dst.put(readData);
-        return CompletableFuture.completedFuture(readData.remaining());
+        int leftToRead = readData.limit() - readData.arrayOffset();
+        return CompletableFuture.completedFuture(leftToRead);
     }
 
     @Override

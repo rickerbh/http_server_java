@@ -14,19 +14,15 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
         ByteBuffer buffer = ByteBuffer.allocate(8192);
         try {
             int bytesRead = ch.read(buffer).get(20, TimeUnit.SECONDS);
-            boolean running = true;
-            while (bytesRead != -1 && running) {
-                if (buffer.position() > 2) {
-                    buffer.flip();
-                    byte[] lineBytes = new byte[bytesRead];
-                    buffer.get(lineBytes, 0, bytesRead);
-                    ch.write(ByteBuffer.wrap("HTTP/1.1 200 OK".getBytes()));
-                    buffer.clear();
-                    running = false;
-                } else {
-                    running = false;
-                }
+            byte[] lineBytes = new byte[bytesRead];
+
+            if (bytesRead > 0 && buffer.position() > 2) {
+                buffer.flip();
+                buffer.get(lineBytes, 0, bytesRead);
+                buffer.clear();
             }
+            // Response
+            ch.write(ByteBuffer.wrap("HTTP/1.1 200 OK".getBytes()));
         } catch (Exception e) {
             e.printStackTrace();
         }
