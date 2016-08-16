@@ -10,10 +10,10 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 public class SocketServer {
     final AsynchronousServerSocketChannel listener;
 
-    public SocketServer(int portNumber) throws IOException {
+    public SocketServer(int portNumber, String rootDirectory) throws IOException {
         listener = AsynchronousServerSocketChannel.open();
         listener.bind(new InetSocketAddress(portNumber));
-        listener.accept(null, new HTTPCompletionHandler());
+        listener.accept(null, new HTTPCompletionHandler(rootDirectory));
     }
 
     public void close() {

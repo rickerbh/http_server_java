@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +36,7 @@ public class SocketServerTest extends TestCase {
     private SocketServer establishServer() {
         SocketServer server = null;
         try {
-            server = new SocketServer(portNumber);
+            server = new SocketServer(portNumber, "");
         } catch (IOException e) {
             e.printStackTrace();
             assertNotNull(e);
@@ -52,7 +53,8 @@ public class SocketServerTest extends TestCase {
             String result = new BufferedReader(new InputStreamReader(client.getInputStream()))
                     .lines()
                     .collect(Collectors.joining("\n"));
-            assertEquals("HTTP/1.1 200 OK", result);
+            Scanner s = new Scanner(result);
+            assertEquals("HTTP/1.1 200 OK", s.nextLine());
         } catch (IOException e) {
             e.printStackTrace();
             assertNull(e);
