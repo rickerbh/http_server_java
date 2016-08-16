@@ -14,11 +14,11 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
         ByteBuffer buffer = ByteBuffer.allocate(8192);
         try {
             int bytesRead = ch.read(buffer).get(20, TimeUnit.SECONDS);
-            byte[] lineBytes = new byte[bytesRead];
+            byte[] requestBytes = new byte[bytesRead];
 
             if (bytesRead > 0 && buffer.position() > 2) {
                 buffer.flip();
-                buffer.get(lineBytes, 0, bytesRead);
+                buffer.get(requestBytes, 0, bytesRead);
                 buffer.clear();
             }
             // Response
