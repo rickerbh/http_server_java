@@ -19,14 +19,16 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
     @Override
     public void completed(AsynchronousSocketChannel ch, Void attachment) {
         byte[] requestBytes = extractRequestBytes(ch);
+
         Request request = new Request(new String(requestBytes));
         List<String> listing = fileDirectoryServer.get(request.getPath());
         StringBuilder responseBuilder = new StringBuilder("HTTP/1.1 200 OK\n\n");
-        responseBuilder.append("Directory listing for " + request.getPath() + "\n\n");
-        for (String filename : listing) {
-            responseBuilder.append(filename + "\n");
-        }
+        DirectoryListingResponse dirResponse = new DirectoryListingResponse(request.getPath(), listing);
+
+        responseBuilder.append(dirResponse.toString());
+
         sendResponse(ch, responseBuilder.toString().getBytes());
+
         closeChannel(ch);
     }
 

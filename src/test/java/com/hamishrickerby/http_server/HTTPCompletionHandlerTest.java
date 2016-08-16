@@ -11,17 +11,27 @@ import java.util.Scanner;
  */
 public class HTTPCompletionHandlerTest extends TestCase {
     public void testGetRespondsWith200() {
-        HTTPCompletionHandler handler = new HTTPCompletionHandler("");
+        String response = runRequestAndGetResponse("GET / HTTP/1.1");
+        Scanner s = new Scanner(response);
+        assertEquals("HTTP/1.1 200 OK", s.nextLine());
+    }
+
+    private String runRequestAndGetResponse(String request) {
+        HTTPCompletionHandler handler = new HTTPCompletionHandler("./src/test/resources");
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
-        channel.setReadData(ByteBuffer.wrap("GET / HTTP/1.1".getBytes()));
+        channel.setReadData(ByteBuffer.wrap(request.getBytes()));
 
         handler.completed(channel, null);
 
         ByteBuffer writtenBuffer = channel.getWrittenData();
         final byte[] bytes = new byte[writtenBuffer.remaining()];
         writtenBuffer.duplicate().get(bytes);
-        String response = new String(bytes);
-        Scanner s = new Scanner(response);
-        assertEquals("HTTP/1.1 200 OK", s.nextLine());
+        return new String(bytes);
+    }
+
+    public void testGetDirectoryRespondsWithDirectoryContents() {
+        String response = runRequestAndGetResponse("GET / HTTP/1.1");
+        assertTrue(response.contains("ihniwid.jpg"));
+        assertTrue(response.contains("test.html"));
     }
 }
