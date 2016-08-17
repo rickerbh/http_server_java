@@ -35,7 +35,7 @@ public abstract class Response {
                 .append("200")
                 .append(" ")
                 .append("OK")
-                .append("\n\n");
+                .append("\r\n\r\n");
         return b.toString();
     }
 
