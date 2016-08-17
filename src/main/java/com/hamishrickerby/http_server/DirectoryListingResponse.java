@@ -28,7 +28,7 @@ public class DirectoryListingResponse extends Response {
                 .append("</h1>");
         for (String filename : listing) {
             responseBuilder.append("<a href=\"")
-                    .append(requestPath)
+                    .append(request.pathWithTrailingSlash())
                     .append(filename)
                     .append("\">")
                     .append(filename)

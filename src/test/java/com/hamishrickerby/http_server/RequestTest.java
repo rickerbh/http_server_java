@@ -13,4 +13,14 @@ public class RequestTest extends TestCase {
         assertEquals("/", request.getPath());
         assertEquals("HTTP/1.1", request.getVersion());
     }
+
+    public void testTrailingSlashOnDirectoriesAppearsWhenGettingSubdirectories() {
+        String requestText = "GET /subdirectory HTTP/1.1";
+        Request request = new Request(requestText);
+        assertEquals("/subdirectory/", request.pathWithTrailingSlash());
+
+        requestText = "GET /subdirectory/ HTTP/1.1";
+        request = new Request(requestText);
+        assertEquals("/subdirectory/", request.pathWithTrailingSlash());
+    }
 }

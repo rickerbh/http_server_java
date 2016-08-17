@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,7 @@ public class Request {
     public Request(String inputText) {
         Scanner s = new Scanner(inputText);
         method = s.next();
-        path = s.next();
+        path = Paths.get(s.next()).normalize().toString();
         version = s.next();
     }
 
@@ -27,5 +28,12 @@ public class Request {
 
     public String getVersion() {
         return version;
+    }
+
+    public String pathWithTrailingSlash() {
+        if (getPath().endsWith("/")) {
+            return getPath();
+        }
+        return getPath() + "/";
     }
 }

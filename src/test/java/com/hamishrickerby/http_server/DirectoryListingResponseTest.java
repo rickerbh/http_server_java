@@ -34,4 +34,14 @@ public class DirectoryListingResponseTest extends TestCase {
         assertTrue(responseText.contains("<a href=\"/" + listing.get(0) + "\">" + listing.get(0) + "</a>"));
         assertTrue(responseText.contains("<a href=\"/" + listing.get(1) + "\">" + listing.get(1) + "</a>"));
     }
+
+    public void testEnsureSubdirectoryListingHasCorrectHTMLLinks() {
+        String location = "/subdirectory";
+        String responseText = getDirectoryListingForPath(location);
+        assertTrue(responseText.contains("<a href=\"" + location + "/file.txt\">file.txt</a>"));
+
+        location = "/subdirectory/";
+        responseText = getDirectoryListingForPath(location);
+        assertTrue(responseText.contains("<a href=\"" + location + "file.txt\">file.txt</a>"));
+    }
 }
