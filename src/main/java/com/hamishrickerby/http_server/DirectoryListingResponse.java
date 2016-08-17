@@ -22,10 +22,22 @@ public class DirectoryListingResponse extends Response {
         List<String> listing = fileDirectoryServer.get(requestPath);
 
         StringBuilder responseBuilder = new StringBuilder();
-        responseBuilder.append("Directory listing for " + requestPath + "\n\n");
+        responseBuilder.append("<html><body>")
+                .append("<h1>")
+                .append("Directory listing for " + requestPath + "\n\n")
+                .append("</h1>");
         for (String filename : listing) {
-            responseBuilder.append(filename + "\n");
+            responseBuilder.append("<a href=\"")
+                    .append(requestPath)
+                    .append(filename)
+                    .append("\">")
+                    .append(filename)
+                    .append("</a>")
+                    .append("<br />")
+                    .append("\n");
         }
+        responseBuilder.append("</body>")
+                .append("</html>");
         return responseBuilder.toString();
     }
 
