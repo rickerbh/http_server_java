@@ -19,10 +19,14 @@ public class DirectoryListingResponseTest extends TestCase {
         assertTrue(responseText.contains(listing.get(1)));
     }
 
-    private String getDirectoryListing() {
-        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET / HTTP/1.1"));
+    private String getDirectoryListingForPath(String location) {
+        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET " + location + " HTTP/1.1"));
         response.setRootPath("./src/test/resources");
         return new String(response.body());
+    }
+
+    private String getDirectoryListing() {
+        return getDirectoryListingForPath("/");
     }
 
     public void testEnsureDirectoryListingHasHTMLLinks() {
