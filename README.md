@@ -21,6 +21,7 @@ Then, clone this repo.
 - `mvn test` will run tests as a standalone task
 - `mvn site` will create maven docs available at `./target/site/index.html`
 
+To browse the generated maven site via this server, `mvn package; java -jar target/http_server-1.0-SNAPSHOT.jar -d target/site/ -p 5000` and then head to http://localhost:500/index.html in your browser.
 
 
 
