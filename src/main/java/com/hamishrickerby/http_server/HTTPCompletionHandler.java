@@ -3,17 +3,14 @@ package com.hamishrickerby.http_server;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rickerbh on 15/08/2016.
  */
 public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
-    FileDirectoryServer fileDirectoryServer;
 
     public HTTPCompletionHandler(String rootDirectory) {
-        fileDirectoryServer = new FileDirectoryServer(rootDirectory);
     }
 
     @Override
@@ -21,13 +18,9 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
         byte[] requestBytes = extractRequestBytes(ch);
 
         Request request = new Request(new String(requestBytes));
-        List<String> listing = fileDirectoryServer.get(request.getPath());
-        StringBuilder responseBuilder = new StringBuilder("HTTP/1.1 200 OK\n\n");
-        DirectoryListingResponse dirResponse = new DirectoryListingResponse(request.getPath(), listing);
+        Response response = new Response(request);
 
-        responseBuilder.append(dirResponse.toString());
-
-        sendResponse(ch, responseBuilder.toString().getBytes());
+        sendResponse(ch, response.getBytes());
 
         closeChannel(ch);
     }
