@@ -15,7 +15,11 @@ public class App {
         SocketServer server = null;
         try {
             server = new SocketServer(port, rootDirectory);
-            Thread.sleep(5000);
+            System.out.println("Mounted " + rootDirectory + " as the directory to serve from.");
+            System.out.println("Server started on port " + port);
+            while (true) {
+                Thread.sleep(5000);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
