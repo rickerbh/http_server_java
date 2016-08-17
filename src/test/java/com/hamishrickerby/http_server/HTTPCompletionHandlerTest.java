@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.mocks.MockAsynchronousServerSocketChannel;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousSocketChannel;
 import junit.framework.TestCase;
 
@@ -17,7 +18,7 @@ public class HTTPCompletionHandlerTest extends TestCase {
     }
 
     private String runRequestAndGetResponse(String request) {
-        HTTPCompletionHandler handler = new HTTPCompletionHandler("./src/test/resources");
+        HTTPCompletionHandler handler = new HTTPCompletionHandler("./src/test/resources", new MockAsynchronousServerSocketChannel(null));
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
         channel.setReadData(ByteBuffer.wrap(request.getBytes()));
 

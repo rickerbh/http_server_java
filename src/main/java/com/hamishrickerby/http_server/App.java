@@ -1,5 +1,7 @@
 package com.hamishrickerby.http_server;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by rickerbh on 15/08/2016.
  */
@@ -13,13 +15,12 @@ public class App {
             System.exit(1);
         }
         SocketServer server = null;
+
         try {
             server = new SocketServer(port, rootDirectory);
             System.out.println("Mounted " + rootDirectory + " as the directory to serve from.");
             System.out.println("Server started on port " + port);
-            while (true) {
-                Thread.sleep(5000);
-            }
+            server.group.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
