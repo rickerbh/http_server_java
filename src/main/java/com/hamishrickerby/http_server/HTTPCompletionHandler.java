@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server;
 
 import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.concurrent.TimeUnit;
@@ -10,13 +11,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
     ResponseFactory responseFactory;
+    AsynchronousServerSocketChannel listeningChannel;
 
-    public HTTPCompletionHandler(String rootDirectory) {
+    public HTTPCompletionHandler(String rootDirectory, AsynchronousServerSocketChannel listeningChannel) {
         responseFactory = new ResponseFactory(rootDirectory);
+        this.listeningChannel = listeningChannel;
     }
 
     @Override
     public void completed(AsynchronousSocketChannel ch, Void attachment) {
+        listeningChannel.accept(null, this);
         String requestText = extractRequestText(ch);
 
         Request request = new Request(requestText);
