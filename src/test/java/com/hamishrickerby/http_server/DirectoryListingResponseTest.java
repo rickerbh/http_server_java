@@ -22,7 +22,7 @@ public class DirectoryListingResponseTest extends TestCase {
     private String getDirectoryListing() {
         DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET / HTTP/1.1"));
         response.setRootPath("./src/test/resources");
-        return response.body();
+        return new String(response.body());
     }
 
     public void testEnsureDirectoryListingHasHTMLLinks() {

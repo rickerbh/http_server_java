@@ -11,7 +11,7 @@ public class MockResponse extends Response {
         super(request);
     }
 
-    public String body() {
-        return "";
+    public byte[] body() {
+        return new byte[0];
     }
 }

@@ -16,7 +16,7 @@ public class DirectoryListingResponse extends Response {
         this.rootPath = path;
     }
 
-    protected String body() {
+    protected byte[] body() {
         FileDirectoryServer fileDirectoryServer = new FileDirectoryServer(rootPath);
         String requestPath = request.getPath();
         List<String> listing = fileDirectoryServer.get(requestPath);
@@ -38,7 +38,7 @@ public class DirectoryListingResponse extends Response {
         }
         responseBuilder.append("</body>")
                 .append("</html>");
-        return responseBuilder.toString();
+        return responseBuilder.toString().getBytes();
     }
 
 }
