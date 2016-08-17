@@ -5,21 +5,28 @@ import java.util.List;
 /**
  * Created by rickerbh on 16/08/2016.
  */
-public class DirectoryListingResponse {
-    String path;
-    List<String> listing;
+public class DirectoryListingResponse extends Response {
+    String rootPath;
 
-    public DirectoryListingResponse(String path, List<String> listing) {
-        this.path = path;
-        this.listing = listing;
+    public DirectoryListingResponse(Request request) {
+        super(request);
     }
 
-    public String toString() {
+    public void setRootPath(String path) {
+        this.rootPath = path;
+    }
+
+    protected String body() {
+        FileDirectoryServer fileDirectoryServer = new FileDirectoryServer(rootPath);
+        String requestPath = request.getPath();
+        List<String> listing = fileDirectoryServer.get(requestPath);
+
         StringBuilder responseBuilder = new StringBuilder();
-        responseBuilder.append("Directory listing for " + path + "\n\n");
+        responseBuilder.append("Directory listing for " + requestPath + "\n\n");
         for (String filename : listing) {
             responseBuilder.append(filename + "\n");
         }
         return responseBuilder.toString();
     }
+
 }

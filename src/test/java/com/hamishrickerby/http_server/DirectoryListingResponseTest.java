@@ -13,10 +13,11 @@ public class DirectoryListingResponseTest extends TestCase {
 
     public void testEnsureDirectoryListingTextMatchesFiles() {
         String path = "MyDirectory";
-        List<String> listing = new ArrayList<String>(Arrays.asList("file1.txt", "file2.html"));
-        DirectoryListingResponse response = new DirectoryListingResponse(path, listing);
-        String responseText = response.toString();
-        assertTrue(responseText.contains("MyDirectory"));
+        List<String> listing = new ArrayList<String>(Arrays.asList("test.html", "ihniwid.jpg"));
+        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET / HTTP/1.1"));
+        response.setRootPath("./src/test/resources");
+        String responseText = response.body();
+        assertTrue(responseText.contains("/"));
         assertTrue(responseText.contains(listing.get(0)));
         assertTrue(responseText.contains(listing.get(1)));
     }

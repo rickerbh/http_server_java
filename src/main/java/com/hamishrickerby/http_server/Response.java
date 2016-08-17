@@ -1,11 +1,9 @@
 package com.hamishrickerby.http_server;
 
-import java.util.List;
-
 /**
  * Created by rickerbh on 17/08/2016.
  */
-public class Response {
+public abstract class Response {
     Request request;
 
     public Response(Request request) {
@@ -30,11 +28,6 @@ public class Response {
         return b.toString();
     }
 
-    private String body() {
-        FileDirectoryServer fileDirectoryServer = new FileDirectoryServer("./src/test/resources");
-        List<String> listing = fileDirectoryServer.get(request.getPath());
-        DirectoryListingResponse dirResponse = new DirectoryListingResponse(request.getPath(), listing);
-        return dirResponse.toString();
-    }
+    abstract protected String body();
 
 }

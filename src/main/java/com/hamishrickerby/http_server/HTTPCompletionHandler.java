@@ -9,18 +9,20 @@ import java.util.concurrent.TimeUnit;
  * Created by rickerbh on 15/08/2016.
  */
 public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
+    ResponseFactory responseFactory;
 
     public HTTPCompletionHandler(String rootDirectory) {
+        responseFactory = new ResponseFactory(rootDirectory);
     }
 
     @Override
     public void completed(AsynchronousSocketChannel ch, Void attachment) {
-        byte[] requestBytes = extractRequestBytes(ch);
+        String requestText = extractRequestText(ch);
 
-        Request request = new Request(new String(requestBytes));
-        Response response = new Response(request);
+        Request request = new Request(requestText);
+        Response response = responseFactory.makeResponse(request);
 
-        sendResponse(ch, response.getBytes());
+        sendResponse(ch, response);
 
         closeChannel(ch);
     }
@@ -30,7 +32,7 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
 
     }
 
-    private byte[] extractRequestBytes(AsynchronousSocketChannel ch) {
+    private String extractRequestText(AsynchronousSocketChannel ch) {
         ByteBuffer buffer = ByteBuffer.allocate(8192);
         byte[] requestBytes = null;
         try {
@@ -45,12 +47,12 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            return requestBytes;
+            return new String(requestBytes);
         }
     }
 
-    private void sendResponse(AsynchronousSocketChannel ch, byte[] responseBytes) {
-        ch.write(ByteBuffer.wrap(responseBytes));
+    private void sendResponse(AsynchronousSocketChannel ch, Response response) {
+        ch.write(ByteBuffer.wrap(response.getBytes()));
     }
 
     private void closeChannel(AsynchronousSocketChannel ch) {
