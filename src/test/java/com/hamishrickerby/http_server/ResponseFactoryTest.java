@@ -12,4 +12,11 @@ public class ResponseFactoryTest extends TestCase {
         Response response = factory.makeResponse(request);
         assertTrue((response instanceof DirectoryListingResponse));
     }
+
+    public void testResponseIsFileListingResponse() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources");
+        Request request = new Request("GET /test.html HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof FileContentsResponse));
+    }
 }

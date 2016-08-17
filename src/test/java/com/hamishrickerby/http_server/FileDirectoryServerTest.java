@@ -10,23 +10,33 @@ import java.util.List;
  */
 public class FileDirectoryServerTest extends TestCase {
     public void testDirectoryListingReturnsFiles() {
-        String rootDir = "./src/test/resources";
-        FileDirectoryServer fs = new FileDirectoryServer(rootDir);
+        FileDirectoryServer fs = server();
         List<String> files = fs.get("/");
         assertTrue(files.contains("ihniwid.jpg"));
         assertTrue(files.contains("test.html"));
     }
 
-    public void testNonExistingDirectoryAtValidRootReturnsEmpty() {
+    private FileDirectoryServer server() {
         String rootDir = "./src/test/resources";
         FileDirectoryServer fs = new FileDirectoryServer(rootDir);
+        return fs;
+    }
+
+    public void testDirectoryExists() {
+        FileDirectoryServer fs = server();
+        assertTrue(fs.directoryExists("subdirectory"));
+        assertFalse(fs.directoryExists("i-don't-exist"));
+        assertFalse(fs.directoryExists("test.html"));
+    }
+
+    public void testNonExistingDirectoryAtValidRootReturnsEmpty() {
+        FileDirectoryServer fs = server();
         List<String> files = fs.get("/i-do-not-exist/");
         assertEquals(new ArrayList<String>(), files);
     }
 
     public void testFileQueryReturnsEmpty() {
-        String rootDir = "./src/test/resources";
-        FileDirectoryServer fs = new FileDirectoryServer(rootDir);
+        FileDirectoryServer fs = server();
         List<String> files = fs.get("/test.html");
         assertEquals(new ArrayList<String>(), files);
     }

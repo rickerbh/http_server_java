@@ -1,5 +1,8 @@
 package com.hamishrickerby.http_server;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 /**
  * Created by rickerbh on 17/08/2016.
  */
@@ -11,10 +14,18 @@ public abstract class Response {
     }
 
     public byte[] getBytes() {
-        StringBuilder b = new StringBuilder();
-        b.append(statusLine())
-                .append(body());
-        return b.toString().getBytes();
+        byte[] status = statusLine().getBytes();
+        byte[] body = body();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            outputStream.write(status);
+            outputStream.write(body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return outputStream.toByteArray();
+        }
     }
 
     private String statusLine() {
@@ -28,6 +39,6 @@ public abstract class Response {
         return b.toString();
     }
 
-    abstract protected String body();
+    abstract protected byte[] body();
 
 }
