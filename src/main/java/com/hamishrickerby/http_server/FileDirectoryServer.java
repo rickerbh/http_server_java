@@ -18,6 +18,11 @@ public class FileDirectoryServer {
         rootPath = Paths.get(rootDirectory);
     }
 
+    public boolean directoryExists(String filename) {
+        Path filePath = Paths.get(rootPath.toString(), filename);
+        return Files.exists(filePath) && Files.isDirectory(filePath);
+    }
+
     public List<String> get(String location) {
         Path path = Paths.get(rootPath.toString(), location);
         List<String> listing = new ArrayList<String>();
