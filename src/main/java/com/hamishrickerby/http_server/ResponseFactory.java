@@ -11,8 +11,27 @@ public class ResponseFactory {
     }
 
     public Response makeResponse(Request request) {
-        DirectoryListingResponse response = new DirectoryListingResponse(request);
-        response.setRootPath(rootPath);
+        Response response = null;
+        if (isFileResponse(request)) {
+            FileContentsResponse fcr = new FileContentsResponse(request);
+            fcr.setRootPath(rootPath);
+            response = fcr;
+        } else if (isDirectoryResponse(request)) {
+            DirectoryListingResponse dlr = new DirectoryListingResponse(request);
+            dlr.setRootPath(rootPath);
+            response = dlr;
+        }
         return response;
     }
+
+    private boolean isFileResponse(Request request) {
+        FileServer server = new FileServer(rootPath);
+        return server.fileExists(request.getPath());
+    }
+
+    private boolean isDirectoryResponse(Request request) {
+        FileDirectoryServer server = new FileDirectoryServer(rootPath);
+        return server.directoryExists(request.getPath());
+    }
+
 }
