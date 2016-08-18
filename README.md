@@ -23,7 +23,6 @@ Then, clone this repo.
 
 To browse the generated maven site via this server, `mvn package; java -jar target/http_server-1.0-SNAPSHOT.jar -d target/site/ -p 5000` and then head to [http://localhost:5000/index.html](http://localhost:5000/index.html) in your browser.
 
-
 ## Completion status
 
 Check out how far through I am at the [TODO](https://github.com/rickerbh/http_server_java/blob/master/TODO.md) page.
