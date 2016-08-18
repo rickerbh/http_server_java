@@ -9,10 +9,23 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class HTTPServerTestUtils {
     protected static void assertResponseCodeEquals(String code, Response response) {
-        String responseText = new String(response.getBytes());
-        Scanner s = new Scanner(responseText);
+        Scanner s = responseScanner(response);
         s.next();
         String receivedCode = s.next();
         assertEquals(code, receivedCode);
+    }
+
+    protected static void assertResponseReasonEquals(String reason, Response response) {
+        Scanner s = responseScanner(response);
+        s.next();
+        s.next();
+        s.useDelimiter("\r\n");
+        String receivedReason = s.next().trim();
+        assertEquals(reason, receivedReason);
+    }
+
+    private static Scanner responseScanner(Response response) {
+        String responseText = new String(response.getBytes());
+        return new Scanner(responseText);
     }
 }

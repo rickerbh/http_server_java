@@ -32,15 +32,19 @@ public abstract class Response {
         StringBuilder b = new StringBuilder();
         b.append(request.getVersion())
                 .append(" ")
-                .append(responseCode())
+                .append(code())
                 .append(" ")
-                .append("OK")
+                .append(reason())
                 .append("\r\n\r\n");
         return b.toString();
     }
 
-    protected int responseCode() {
+    protected int code() {
         return 200;
+    }
+
+    protected String reason() {
+        return "OK";
     }
 
     abstract protected byte[] body();
