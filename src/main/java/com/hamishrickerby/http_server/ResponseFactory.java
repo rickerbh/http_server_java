@@ -11,13 +11,11 @@ public class ResponseFactory {
     }
 
     public Response makeResponse(Request request) {
-        Response response = null;
+        Response response;
         if (isFileResponse(request)) {
-            FileContentsResponse fcr = new FileContentsResponse(request, rootPath);
-            response = fcr;
+            response = new FileContentsResponse(request, rootPath);
         } else if (isDirectoryResponse(request)) {
-            DirectoryListingResponse dlr = new DirectoryListingResponse(request, rootPath);
-            response = dlr;
+            response = new DirectoryListingResponse(request, rootPath);
         } else {
             response = new FourOhFourResponse(request);
         }
