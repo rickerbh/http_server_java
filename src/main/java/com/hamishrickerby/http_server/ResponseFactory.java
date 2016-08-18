@@ -18,6 +18,8 @@ public class ResponseFactory {
         } else if (isDirectoryResponse(request)) {
             DirectoryListingResponse dlr = new DirectoryListingResponse(request, rootPath);
             response = dlr;
+        } else {
+            response = new FourOhFourResponse(request);
         }
         return response;
     }

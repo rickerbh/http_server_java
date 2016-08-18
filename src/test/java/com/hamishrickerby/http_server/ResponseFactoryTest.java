@@ -19,4 +19,13 @@ public class ResponseFactoryTest extends TestCase {
         Response response = factory.makeResponse(request);
         assertTrue((response instanceof FileContentsResponse));
     }
+
+    public void testResponseIs404() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources");
+        Request request = new Request("GET /no-file-here HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof FourOhFourResponse));
+    }
+
 }
+
