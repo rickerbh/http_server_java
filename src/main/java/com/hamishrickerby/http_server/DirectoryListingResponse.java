@@ -5,15 +5,10 @@ import java.util.List;
 /**
  * Created by rickerbh on 16/08/2016.
  */
-public class DirectoryListingResponse extends Response {
-    String rootPath;
+public class DirectoryListingResponse extends FileSystemResponse {
 
-    public DirectoryListingResponse(Request request) {
-        super(request);
-    }
-
-    public void setRootPath(String path) {
-        this.rootPath = path;
+    public DirectoryListingResponse(Request request, String rootPath) {
+        super(request, rootPath);
     }
 
     protected byte[] body() {

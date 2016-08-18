@@ -20,8 +20,7 @@ public class DirectoryListingResponseTest extends TestCase {
     }
 
     private String getDirectoryListingForPath(String location) {
-        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET " + location + " HTTP/1.1"));
-        response.setRootPath("./src/test/resources");
+        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET " + location + " HTTP/1.1"), "./src/test/resources");
         return new String(response.body());
     }
 

@@ -13,9 +13,8 @@ import java.util.Arrays;
 public class FileContentsResponseTest extends TestCase {
 
     public void testFileContentsRetrieved() {
-        FileContentsResponse response = new FileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"));
         String rootDir = "./src/test/resources";
-        response.setRootPath(rootDir);
+        FileContentsResponse response = new FileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"), rootDir);
         byte[] contents = response.body();
 
         String filename = "subdirectory/file.txt";
@@ -28,6 +27,5 @@ public class FileContentsResponseTest extends TestCase {
         }
 
         assertTrue(Arrays.equals(expectedContents, contents));
-
     }
 }

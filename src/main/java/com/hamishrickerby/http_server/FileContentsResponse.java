@@ -3,15 +3,9 @@ package com.hamishrickerby.http_server;
 /**
  * Created by rickerbh on 17/08/2016.
  */
-public class FileContentsResponse extends Response {
-    String rootPath;
-
-    public FileContentsResponse(Request request) {
-        super(request);
-    }
-
-    public void setRootPath(String path) {
-        this.rootPath = path;
+public class FileContentsResponse extends FileSystemResponse {
+    public FileContentsResponse(Request request, String rootPath) {
+        super(request, rootPath);
     }
 
     public byte[] body() {

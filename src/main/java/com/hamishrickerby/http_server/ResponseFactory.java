@@ -13,12 +13,10 @@ public class ResponseFactory {
     public Response makeResponse(Request request) {
         Response response = null;
         if (isFileResponse(request)) {
-            FileContentsResponse fcr = new FileContentsResponse(request);
-            fcr.setRootPath(rootPath);
+            FileContentsResponse fcr = new FileContentsResponse(request, rootPath);
             response = fcr;
         } else if (isDirectoryResponse(request)) {
-            DirectoryListingResponse dlr = new DirectoryListingResponse(request);
-            dlr.setRootPath(rootPath);
+            DirectoryListingResponse dlr = new DirectoryListingResponse(request, rootPath);
             response = dlr;
         }
         return response;
