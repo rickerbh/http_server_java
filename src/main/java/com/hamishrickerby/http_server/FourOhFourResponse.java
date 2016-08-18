@@ -10,8 +10,13 @@ public class FourOhFourResponse extends Response {
     }
 
     @Override
-    protected int responseCode() {
+    protected int code() {
         return 404;
+    }
+
+    @Override
+    protected String reason() {
+        return "Not Found";
     }
 
     protected byte[] body() {
