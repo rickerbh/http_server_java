@@ -35,7 +35,9 @@ public abstract class Response {
                 .append(code())
                 .append(" ")
                 .append(reason())
-                .append("\r\n\r\n");
+                .append("\r\n")
+                .append(String.join("\r\n", headers()))
+                .append("\r\n");
         return b.toString();
     }
 
@@ -45,6 +47,10 @@ public abstract class Response {
 
     protected String reason() {
         return "OK";
+    }
+
+    protected String[] headers() {
+        return new String[0];
     }
 
     abstract protected byte[] body();
