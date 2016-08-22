@@ -27,5 +27,12 @@ public class ResponseFactoryTest extends TestCase {
         assertTrue((response instanceof FourOhFourResponse));
     }
 
+    public void testResponseIsRedirect() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources");
+        Request request = new Request("GET /redirect HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof RedirectResponse));
+    }
+
 }
 
