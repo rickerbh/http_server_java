@@ -12,7 +12,9 @@ public class ResponseFactory {
 
     public Response makeResponse(Request request) {
         Response response;
-        if (isFileResponse(request)) {
+        if (RedirectResponse.existsFor(request.getPath())) {
+            response = new RedirectResponse(request);
+        } else if (isFileResponse(request)) {
             response = new FileContentsResponse(request, rootPath);
         } else if (isDirectoryResponse(request)) {
             response = new DirectoryListingResponse(request, rootPath);

@@ -32,15 +32,25 @@ public abstract class Response {
         StringBuilder b = new StringBuilder();
         b.append(request.getVersion())
                 .append(" ")
-                .append(responseCode())
+                .append(code())
                 .append(" ")
-                .append("OK")
-                .append("\r\n\r\n");
+                .append(reason())
+                .append("\r\n")
+                .append(String.join("\r\n", headers()))
+                .append("\r\n");
         return b.toString();
     }
 
-    protected int responseCode() {
+    protected int code() {
         return 200;
+    }
+
+    protected String reason() {
+        return "OK";
+    }
+
+    protected String[] headers() {
+        return new String[0];
     }
 
     abstract protected byte[] body();

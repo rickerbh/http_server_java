@@ -27,4 +27,10 @@ public class AppArgumentsTest extends TestCase {
         assertNull(args.get("i-don't-exist"));
     }
 
+    public void testDefaultsAreReturnedIfNoArgumentExists() {
+        String[] inputArgs = {"-p", "3000"};
+        AppArguments args = new AppArguments(inputArgs);
+        assertEquals("aDefault", args.getOrDefault("non-existing-key", "aDefault"));
+    }
+
 }
