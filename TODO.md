@@ -14,7 +14,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [ ] Partial Content
 - [ ] Patch With ETag
 - [ ] Post Get Put Get Delete Get
-- [ ] Redirect Path
+- [X] Redirect Path
 - [X] Simple Get
 - [ ] Simple Head
 - [ ] Simple Option
