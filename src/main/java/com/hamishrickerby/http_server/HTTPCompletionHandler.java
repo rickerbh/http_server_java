@@ -8,40 +8,32 @@ import java.nio.channels.CompletionHandler;
  * Created by rickerbh on 15/08/2016.
  */
 public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
-    ResponseFactory responseFactory;
     AsynchronousServerSocketChannel listeningChannel;
+    HTTPHandler handler;
 
     public HTTPCompletionHandler(String rootDirectory, AsynchronousServerSocketChannel listeningChannel) {
-        responseFactory = new ResponseFactory(rootDirectory);
+        handler = new HTTPHandler(rootDirectory);
         this.listeningChannel = listeningChannel;
     }
 
     @Override
     public void completed(AsynchronousSocketChannel ch, Void attachment) {
-        listeningChannel.accept(null, this);
-        String requestText = extractRequestText(ch);
+        setupHandlerForNextConnection();
 
-        Request request = new Request(requestText);
-        Response response = responseFactory.makeResponse(request);
-
-        sendResponse(ch, response);
+        ByteReader reader = new AsynchronousSocketChannelReader(ch);
+        ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
+        handler.run(reader, writer);
 
         closeChannel(ch);
+    }
+
+    private void setupHandlerForNextConnection() {
+        listeningChannel.accept(null, this);
     }
 
     @Override
     public void failed(Throwable exc, Void attachment) {
 
-    }
-
-    private String extractRequestText(AsynchronousSocketChannel ch) {
-        ByteReader reader = new AsynchronousSocketChannelReader(ch);
-        return new String(reader.read());
-    }
-
-    private void sendResponse(AsynchronousSocketChannel ch, Response response) {
-        ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
-        writer.write(response.getBytes());
     }
 
     private void closeChannel(AsynchronousSocketChannel ch) {
