@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
  * Created by rickerbh on 15/08/2016.
  */
 public class MockAsynchronousSocketChannel extends AsynchronousSocketChannel {
-    public void setReadData(ByteBuffer readData) {
-        this.readData = readData;
+    public void setReadData(String text) {
+        this.readData = ByteBuffer.wrap(text.getBytes());
     }
 
     private ByteBuffer readData;
