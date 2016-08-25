@@ -1,6 +1,5 @@
 package com.hamishrickerby.http_server;
 
-import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
@@ -41,7 +40,8 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
     }
 
     private void sendResponse(AsynchronousSocketChannel ch, Response response) {
-        ch.write(ByteBuffer.wrap(response.getBytes()));
+        ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
+        writer.write(response.getBytes());
     }
 
     private void closeChannel(AsynchronousSocketChannel ch) {
