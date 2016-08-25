@@ -20,7 +20,7 @@ public class HTTPCompletionHandlerTest extends TestCase {
     private String runRequestAndGetResponse(String request) {
         HTTPCompletionHandler handler = new HTTPCompletionHandler("./src/test/resources", new MockAsynchronousServerSocketChannel(null));
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
-        channel.setReadData(ByteBuffer.wrap(request.getBytes()));
+        channel.setReadData(request);
 
         handler.completed(channel, null);
 
