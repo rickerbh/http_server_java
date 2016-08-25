@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rickerbh on 15/08/2016.
@@ -37,22 +36,8 @@ public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSock
     }
 
     private String extractRequestText(AsynchronousSocketChannel ch) {
-        ByteBuffer buffer = ByteBuffer.allocate(8192);
-        byte[] requestBytes = null;
-        try {
-            int bytesRead = ch.read(buffer).get(20, TimeUnit.SECONDS);
-            requestBytes = new byte[bytesRead];
-
-            if (bytesRead > 0 && buffer.position() > 2) {
-                buffer.flip();
-                buffer.get(requestBytes, 0, bytesRead);
-                buffer.clear();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return new String(requestBytes);
-        }
+        ByteReader reader = new AsynchronousSocketChannelReader(ch);
+        return new String(reader.read());
     }
 
     private void sendResponse(AsynchronousSocketChannel ch, Response response) {
