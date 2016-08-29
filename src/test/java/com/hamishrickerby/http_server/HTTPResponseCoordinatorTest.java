@@ -11,7 +11,7 @@ public class HTTPResponseCoordinatorTest extends TestCase {
     public void testRequestGivesAResponse() {
         ByteReader reader = new FakeReader("GET / HTTP/1.1");
         FakeWriter writer = new FakeWriter();
-        HTTPResponseCoordinator handler = new HTTPResponseCoordinator("./src/test/resources");
+        ResponseCoordinator handler = new HTTPResponseCoordinator("./src/test/resources");
         handler.run(reader, writer);
         assertNotSame(new byte[0], writer.readWrittenBytes());
     }

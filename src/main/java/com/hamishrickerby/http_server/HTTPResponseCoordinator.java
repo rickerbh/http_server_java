@@ -3,7 +3,7 @@ package com.hamishrickerby.http_server;
 /**
  * Created by rickerbh on 25/08/2016.
  */
-public class HTTPResponseCoordinator {
+public class HTTPResponseCoordinator implements ResponseCoordinator {
     ResponseFactory responseFactory;
 
     public HTTPResponseCoordinator(String rootDirectory) {
