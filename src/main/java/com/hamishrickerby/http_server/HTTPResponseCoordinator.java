@@ -3,10 +3,10 @@ package com.hamishrickerby.http_server;
 /**
  * Created by rickerbh on 25/08/2016.
  */
-public class HTTPHandler {
+public class HTTPResponseCoordinator {
     ResponseFactory responseFactory;
 
-    public HTTPHandler(String rootDirectory) {
+    public HTTPResponseCoordinator(String rootDirectory) {
         responseFactory = new ResponseFactory(rootDirectory);
     }
 
