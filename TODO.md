@@ -6,7 +6,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Directory Links
 - [X] Directory Listing
 - [X] File Contents
-- [ ] Four Eight Teen
+- [X] Four Eight Teen
 - [X] Four Oh Four
 - [X] Image Content
 - [ ] Method Not Allowed
