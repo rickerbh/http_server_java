@@ -16,7 +16,9 @@ public class SocketServer {
     public SocketServer(int portNumber, String rootDirectory) throws IOException {
         listener = AsynchronousServerSocketChannel.open(group);
         listener.bind(new InetSocketAddress(portNumber));
-        listener.accept(null, new AsynchronousSocketChannelCompletionHandler(rootDirectory, listener));
+        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler(listener);
+        handler.setResponseCoordinator(new HTTPResponseCoordinator(rootDirectory));
+        listener.accept(null, handler);
     }
 
     public void close() {

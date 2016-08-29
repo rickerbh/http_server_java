@@ -9,20 +9,25 @@ import java.nio.channels.CompletionHandler;
  */
 public class AsynchronousSocketChannelCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
     AsynchronousServerSocketChannel listeningChannel;
-    HTTPResponseCoordinator handler;
+    ResponseCoordinator handler;
 
-    public AsynchronousSocketChannelCompletionHandler(String rootDirectory, AsynchronousServerSocketChannel listeningChannel) {
-        handler = new HTTPResponseCoordinator(rootDirectory);
+    public AsynchronousSocketChannelCompletionHandler(AsynchronousServerSocketChannel listeningChannel) {
         this.listeningChannel = listeningChannel;
+    }
+
+    public void setResponseCoordinator(ResponseCoordinator coordinator) {
+        handler = coordinator;
     }
 
     @Override
     public void completed(AsynchronousSocketChannel ch, Void attachment) {
         setupHandlerForNextConnection();
 
-        ByteReader reader = new AsynchronousSocketChannelReader(ch);
-        ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
-        handler.run(reader, writer);
+        if (handler != null) {
+            ByteReader reader = new AsynchronousSocketChannelReader(ch);
+            ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
+            handler.run(reader, writer);
+        }
 
         closeChannel(ch);
     }

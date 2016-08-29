@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.mocks.FakeResponseCoordinator;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousServerSocketChannel;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousSocketChannel;
 import junit.framework.TestCase;
@@ -18,7 +19,9 @@ public class AsynchronousSocketChannelCompletionHandlerTest extends TestCase {
     }
 
     private String runRequestAndGetResponse(String request) {
-        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler("./src/test/resources", new MockAsynchronousServerSocketChannel(null));
+        ResponseCoordinator coordinator = new HTTPResponseCoordinator("./src/test/resources");
+        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler(new MockAsynchronousServerSocketChannel(null));
+        handler.setResponseCoordinator(coordinator);
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
         channel.setReadData(request);
 
@@ -35,4 +38,27 @@ public class AsynchronousSocketChannelCompletionHandlerTest extends TestCase {
         assertTrue(response.contains("ihniwid.jpg"));
         assertTrue(response.contains("test.html"));
     }
+
+    public void testHandlerRunCalled() {
+        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler(new MockAsynchronousServerSocketChannel(null));
+        FakeResponseCoordinator coordinator = new FakeResponseCoordinator();
+        handler.setResponseCoordinator(coordinator);
+
+        MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
+        channel.setReadData("GET / HTTP/1.1");
+
+        handler.completed(channel, null);
+
+        assertTrue(coordinator.didCallRun());
+    }
+
+    public void testEmptyHandlerDoesNotCrash() {
+        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler(new MockAsynchronousServerSocketChannel(null));
+
+        MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
+        channel.setReadData("GET / HTTP/1.1");
+
+        handler.completed(channel, null);
+    }
+    
 }
