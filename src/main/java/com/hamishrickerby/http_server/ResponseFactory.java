@@ -14,6 +14,8 @@ public class ResponseFactory {
         Response response;
         if (RedirectResponse.existsFor(request.getPath())) {
             response = new RedirectResponse(request);
+        } else if (FourEightTeenResponse.existsFor(request)) {
+            response = new FourEightTeenResponse(request);
         } else if (isFileResponse(request)) {
             response = new FileContentsResponse(request, rootPath);
         } else if (isDirectoryResponse(request)) {
