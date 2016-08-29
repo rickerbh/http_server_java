@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.helpers.AsynchronousSocketServerTimeoutRunner;
 import junit.framework.TestCase;
 
 import java.io.BufferedReader;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by rickerbh on 14/08/2016.
  */
-public class SocketServerTest extends TestCase {
+public class AsynchronousSocketServerTest extends TestCase {
 
     int portNumber = 5000;
     String address = "localhost";
@@ -30,17 +31,22 @@ public class SocketServerTest extends TestCase {
         }
         assertNotNull(server);
         assertNotNull(socket);
-        server.close();
+        server.stop();
     }
 
     private SocketServer establishServer() {
         SocketServer server = null;
         try {
-            server = new SocketServer(portNumber, "");
+            server = new AsynchronousSocketServer();
+            server.bind(portNumber);
+
+            ResponseCoordinator coordinator = new HTTPResponseCoordinator("");
+            server.setResponseCoordinator(coordinator);
+
         } catch (IOException e) {
-            e.printStackTrace();
-            assertNotNull(e);
+            fail("Could not instantiate or bind AsynchronousSocketServer.");
         }
+        server.start();
         return server;
     }
 
@@ -59,13 +65,13 @@ public class SocketServerTest extends TestCase {
             e.printStackTrace();
             assertNull(e);
         } finally {
-            server.close();
+            server.stop();
         }
     }
 
     public void testServerCloses() {
         SocketServer server = establishServer();
-        server.close();
+        server.stop();
         try {
             Socket socket = new Socket(address, portNumber);
         } catch (Exception e) {
@@ -78,8 +84,8 @@ public class SocketServerTest extends TestCase {
 
     public void testServerClosedAndCloseAgainBranch() {
         SocketServer server = establishServer();
-        server.close();
-        server.close();
+        server.stop();
+        server.stop();
         try {
             Socket socket = new Socket(address, portNumber);
         } catch (Exception e) {
@@ -89,6 +95,36 @@ public class SocketServerTest extends TestCase {
         }
         assertTrue(false);
 
+    }
+
+    public void testServerExhibitsSurvivingAndInterruptedBehaviour() {
+        AsynchronousSocketServerTimeoutRunner runner = new AsynchronousSocketServerTimeoutRunner();
+        runner.timeToLive = 2L;
+        Thread t = new Thread(runner);
+        t.start();
+        try {
+            t.join(1000);
+        } catch (InterruptedException e) {
+            fail("Socket server interrupted in test.");
+        }
+        assertTrue(t.isAlive());
+        assertFalse(t.isInterrupted());
+        t.interrupt();
+        assertTrue(t.isInterrupted());
+    }
+
+    public void testServerExhibitsTimeoutBehaviour() {
+        AsynchronousSocketServerTimeoutRunner runner = new AsynchronousSocketServerTimeoutRunner();
+        runner.timeToLive = 1L;
+        Thread t = new Thread(runner);
+        t.start();
+        try {
+            t.join(1200);
+        } catch (InterruptedException e) {
+            fail("Socket server interrupted in test.");
+        }
+        assertFalse(t.isAlive());
+        assertFalse(t.isInterrupted());
     }
 
 }
