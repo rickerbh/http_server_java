@@ -26,4 +26,19 @@ public class FourEightTeenResponseTest extends TestCase {
         assertResponseReasonEquals("OK", response);
         assertEquals(0, response.body().length);
     }
+
+    public void testResponseHandlesCoffee() {
+        Request request = new Request("GET /coffee HTTP/1.1");
+        assertTrue(FourEightTeenResponse.existsFor(request));
+    }
+
+    public void testResponseHandlesTea() {
+        Request request = new Request("GET /tea HTTP/1.1");
+        assertTrue(FourEightTeenResponse.existsFor(request));
+    }
+
+    public void testResponseDoesNotHandleCola() {
+        Request request = new Request("GET /cola HTTP/1.1");
+        assertFalse(FourEightTeenResponse.existsFor(request));
+    }
 }

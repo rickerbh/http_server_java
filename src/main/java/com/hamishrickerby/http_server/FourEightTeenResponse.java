@@ -35,4 +35,13 @@ public class FourEightTeenResponse extends Response {
     private Boolean isRequestCoffee() {
         return request.getPath().equals("/coffee");
     }
+
+    private Boolean isRequestTea() {
+        return request.getPath().equals("/tea");
+    }
+
+    public static Boolean existsFor(Request request) {
+        FourEightTeenResponse response = new FourEightTeenResponse(request);
+        return response.isRequestCoffee() || response.isRequestTea();
+    }
 }

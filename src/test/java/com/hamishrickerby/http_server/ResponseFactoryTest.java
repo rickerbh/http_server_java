@@ -34,5 +34,16 @@ public class ResponseFactoryTest extends TestCase {
         assertTrue((response instanceof RedirectResponse));
     }
 
+    public void testResponseIsFourEightTeen() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources");
+        Request request = new Request("GET /coffee HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof FourEightTeenResponse));
+
+        request = new Request("GET /tea HTTP/1.1");
+        response = factory.makeResponse(request);
+        assertTrue((response instanceof FourEightTeenResponse));
+    }
+
 }
 
