@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * Created by rickerbh on 15/08/2016.
  */
-public class HTTPCompletionHandlerTest extends TestCase {
+public class AsynchronousSocketChannelCompletionHandlerTest extends TestCase {
     public void testGetRespondsWith200() {
         String response = runRequestAndGetResponse("GET / HTTP/1.1");
         Scanner s = new Scanner(response);
@@ -18,7 +18,7 @@ public class HTTPCompletionHandlerTest extends TestCase {
     }
 
     private String runRequestAndGetResponse(String request) {
-        HTTPCompletionHandler handler = new HTTPCompletionHandler("./src/test/resources", new MockAsynchronousServerSocketChannel(null));
+        AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler("./src/test/resources", new MockAsynchronousServerSocketChannel(null));
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);
         channel.setReadData(request);
 

@@ -7,11 +7,11 @@ import java.nio.channels.CompletionHandler;
 /**
  * Created by rickerbh on 15/08/2016.
  */
-public class HTTPCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
+public class AsynchronousSocketChannelCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, Void> {
     AsynchronousServerSocketChannel listeningChannel;
     HTTPHandler handler;
 
-    public HTTPCompletionHandler(String rootDirectory, AsynchronousServerSocketChannel listeningChannel) {
+    public AsynchronousSocketChannelCompletionHandler(String rootDirectory, AsynchronousServerSocketChannel listeningChannel) {
         handler = new HTTPHandler(rootDirectory);
         this.listeningChannel = listeningChannel;
     }
