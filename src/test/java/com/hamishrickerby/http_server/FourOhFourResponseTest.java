@@ -2,8 +2,8 @@ package com.hamishrickerby.http_server;
 
 import junit.framework.TestCase;
 
-import static com.hamishrickerby.http_server.HTTPServerTestUtils.assertResponseCodeEquals;
-import static com.hamishrickerby.http_server.HTTPServerTestUtils.assertResponseReasonEquals;
+import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
+import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseReasonEquals;
 
 /**
  * Created by rickerbh on 18/08/2016.

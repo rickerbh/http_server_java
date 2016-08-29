@@ -1,4 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.helpers;
+
+import com.hamishrickerby.http_server.Response;
 
 import java.util.Scanner;
 
@@ -8,14 +10,14 @@ import static junit.framework.TestCase.assertEquals;
  * Created by rickerbh on 18/08/2016.
  */
 public class HTTPServerTestUtils {
-    protected static void assertResponseCodeEquals(String code, Response response) {
+    public static void assertResponseCodeEquals(String code, Response response) {
         Scanner s = responseScanner(response);
         s.next();
         String receivedCode = s.next();
         assertEquals(code, receivedCode);
     }
 
-    protected static void assertResponseReasonEquals(String reason, Response response) {
+    public static void assertResponseReasonEquals(String reason, Response response) {
         Scanner s = responseScanner(response);
         s.next();
         s.next();
@@ -29,3 +31,4 @@ public class HTTPServerTestUtils {
         return new Scanner(responseText);
     }
 }
+

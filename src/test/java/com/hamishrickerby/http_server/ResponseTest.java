@@ -3,8 +3,8 @@ package com.hamishrickerby.http_server;
 import com.hamishrickerby.http_server.mocks.MockResponse;
 import junit.framework.TestCase;
 
-import static com.hamishrickerby.http_server.HTTPServerTestUtils.assertResponseCodeEquals;
-import static com.hamishrickerby.http_server.HTTPServerTestUtils.assertResponseReasonEquals;
+import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
+import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseReasonEquals;
 
 /**
  * Created by rickerbh on 17/08/2016.

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import java.util.Arrays;
 
-import static com.hamishrickerby.http_server.HTTPServerTestUtils.assertResponseCodeEquals;
+import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
 
 
 /**
