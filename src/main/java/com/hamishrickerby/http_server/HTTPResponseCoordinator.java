@@ -14,7 +14,7 @@ public class HTTPResponseCoordinator implements ResponseCoordinator {
         responseFactory = new ResponseFactory(rootDirectory);
     }
 
-    public void run(ByteReader reader, ByteWriter writer) {
+    public void marshalResponse(ByteReader reader, ByteWriter writer) {
         String requestText = extractRequestText(reader);
 
         Request request = new Request(requestText);

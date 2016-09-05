@@ -7,5 +7,5 @@ import com.hamishrickerby.http_server.ByteWriter;
  * Created by rickerbh on 29/08/2016.
  */
 public interface ResponseCoordinator {
-    void run(ByteReader reader, ByteWriter writer);
+    void marshalResponse(ByteReader reader, ByteWriter writer);
 }

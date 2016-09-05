@@ -28,7 +28,7 @@ public class AsynchronousSocketChannelCompletionHandler implements CompletionHan
         if (handler != null) {
             ByteReader reader = new AsynchronousSocketChannelReader(ch);
             ByteWriter writer = new AsynchronousSocketChannelWriter(ch);
-            handler.run(reader, writer);
+            handler.marshalResponse(reader, writer);
         }
 
         closeChannel(ch);

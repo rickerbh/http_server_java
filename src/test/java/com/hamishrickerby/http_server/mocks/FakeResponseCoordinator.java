@@ -11,7 +11,7 @@ public class FakeResponseCoordinator implements ResponseCoordinator {
 
     boolean calledRun = false;
 
-    public void run(ByteReader reader, ByteWriter writer) {
+    public void marshalResponse(ByteReader reader, ByteWriter writer) {
         calledRun = true;
     }
 
