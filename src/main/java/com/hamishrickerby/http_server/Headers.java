@@ -32,7 +32,9 @@ public class Headers {
         String[] lines = headerString.split("\r\n");
         for (String line : Arrays.asList(lines)) {
             String[] components = line.split(":");
-            put(components[0].trim(), components[1].trim());
+            if (components.length >= 2) {
+                put(components[0].trim(), components[1].trim());
+            }
         }
     }
 

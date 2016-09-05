@@ -43,4 +43,10 @@ public class HeadersTest extends TestCase {
         assertEquals(v2, headers.get(k2));
     }
 
+    public void testEmptyHeadersParseWithoutException() {
+        Headers headers = new Headers();
+        headers.parse("");
+        assertEquals("", headers.get("non-existant-key"));
+    }
+
 }
