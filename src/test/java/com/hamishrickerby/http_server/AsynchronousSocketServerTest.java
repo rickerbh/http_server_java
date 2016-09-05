@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server;
 
 import com.hamishrickerby.http_server.helpers.AsynchronousSocketServerTimeoutRunner;
+import com.hamishrickerby.http_server.responses.ResponseCoordinator;
 import junit.framework.TestCase;
 
 import java.io.BufferedReader;

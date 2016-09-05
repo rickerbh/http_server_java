@@ -3,6 +3,7 @@ package com.hamishrickerby.http_server;
 import com.hamishrickerby.http_server.mocks.FakeResponseCoordinator;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousServerSocketChannel;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousSocketChannel;
+import com.hamishrickerby.http_server.responses.ResponseCoordinator;
 import junit.framework.TestCase;
 
 import java.nio.ByteBuffer;
@@ -60,5 +61,5 @@ public class AsynchronousSocketChannelCompletionHandlerTest extends TestCase {
 
         handler.completed(channel, null);
     }
-    
+
 }

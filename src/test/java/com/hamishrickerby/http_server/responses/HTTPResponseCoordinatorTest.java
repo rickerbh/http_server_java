@@ -1,5 +1,7 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.ByteReader;
+import com.hamishrickerby.http_server.HTTPResponseCoordinator;
 import com.hamishrickerby.http_server.mocks.FakeReader;
 import com.hamishrickerby.http_server.mocks.FakeWriter;
 import junit.framework.TestCase;

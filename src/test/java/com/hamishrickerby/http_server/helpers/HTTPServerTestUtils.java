@@ -1,6 +1,6 @@
 package com.hamishrickerby.http_server.helpers;
 
-import com.hamishrickerby.http_server.Response;
+import com.hamishrickerby.http_server.responses.Response;
 
 import java.util.Scanner;
 

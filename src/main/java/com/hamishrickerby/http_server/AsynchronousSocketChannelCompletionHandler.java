@@ -1,5 +1,7 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.responses.ResponseCoordinator;
+
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;

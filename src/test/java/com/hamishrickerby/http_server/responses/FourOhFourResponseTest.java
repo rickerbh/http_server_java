@@ -1,5 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.Request;
 import junit.framework.TestCase;
 
 import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;

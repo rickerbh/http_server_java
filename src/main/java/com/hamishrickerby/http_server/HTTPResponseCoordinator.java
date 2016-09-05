@@ -1,5 +1,9 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.responses.Response;
+import com.hamishrickerby.http_server.responses.ResponseCoordinator;
+import com.hamishrickerby.http_server.responses.ResponseFactory;
+
 /**
  * Created by rickerbh on 25/08/2016.
  */

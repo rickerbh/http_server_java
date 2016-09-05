@@ -1,7 +1,7 @@
 package com.hamishrickerby.http_server.mocks;
 
 import com.hamishrickerby.http_server.Request;
-import com.hamishrickerby.http_server.Response;
+import com.hamishrickerby.http_server.responses.Response;
 
 /**
  * Created by rickerbh on 17/08/2016.

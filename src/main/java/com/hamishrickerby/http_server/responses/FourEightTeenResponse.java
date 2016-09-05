@@ -1,4 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.responses;
+
+import com.hamishrickerby.http_server.Request;
 
 /**
  * Created by rickerbh on 29/08/2016.

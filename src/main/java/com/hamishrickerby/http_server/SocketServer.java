@@ -1,5 +1,7 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.responses.ResponseCoordinator;
+
 import java.io.IOException;
 
 /**

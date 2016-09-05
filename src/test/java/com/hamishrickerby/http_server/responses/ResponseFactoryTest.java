@@ -1,5 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.Request;
 import junit.framework.TestCase;
 
 /**
