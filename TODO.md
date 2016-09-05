@@ -20,5 +20,5 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [ ] Simple Option
 - [ ] Simple Post
 - [ ] Simple Put
-- [ ] Time To Complete
+- [X] Time To Complete
   

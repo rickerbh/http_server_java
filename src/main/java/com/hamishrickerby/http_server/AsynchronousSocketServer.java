@@ -16,7 +16,8 @@ public class AsynchronousSocketServer implements Server {
     int portNumber;
 
     final AsynchronousServerSocketChannel listener;
-    final AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(Executors.newSingleThreadExecutor());
+
+    final AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(Executors.newWorkStealingPool());
     ResponseCoordinator coordinator;
 
     public AsynchronousSocketServer(int portNumber) throws IOException {

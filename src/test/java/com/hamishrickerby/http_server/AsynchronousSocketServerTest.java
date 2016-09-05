@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -122,6 +125,37 @@ public class AsynchronousSocketServerTest extends TestCase {
         }
         assertFalse(t.isAlive());
         assertFalse(t.isInterrupted());
+    }
+
+    public void testMultipleThreadsComplete() throws Exception {
+        int iterations = 1500;
+        CountDownLatch latch = new CountDownLatch(iterations);
+        Executor executor = Executors.newWorkStealingPool();
+        
+        Server server = establishServer();
+        for (int i = 0; i < iterations; i++) {
+            executor.execute(() -> {
+                try {
+                    byte[] data = "GET / HTTP/1.1".getBytes(Charset.forName("UTF-8"));
+                    Socket client = new Socket(address, portNumber);
+                    client.getOutputStream().write(data);
+                    String result = new BufferedReader(new InputStreamReader(client.getInputStream()))
+                            .lines()
+                            .collect(Collectors.joining("\n"));
+                    client.close();
+                    Scanner s = new Scanner(result);
+                    assertEquals("HTTP/1.1 200 OK", s.nextLine());
+                } catch (Exception e) {
+                    fail("Exception raised by socket: " + e.getLocalizedMessage());
+                }
+
+                latch.countDown();
+            });
+        }
+
+        latch.await();
+
+        server.stop();
     }
 
 }
