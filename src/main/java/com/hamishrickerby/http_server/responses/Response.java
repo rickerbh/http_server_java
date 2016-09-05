@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public abstract class Response {
     Request request;
+    private static String CR_LF = "\r\n";
 
     public Response(Request request) {
         this.request = request;
@@ -37,9 +38,9 @@ public abstract class Response {
                 .append(code())
                 .append(" ")
                 .append(reason())
-                .append("\r\n")
-                .append(String.join("\r\n", headers()))
-                .append("\r\n");
+                .append(CR_LF)
+                .append(String.join(CR_LF, headers()))
+                .append(CR_LF);
         return b.toString();
     }
 

@@ -9,6 +9,7 @@ import java.util.Map;
  * Created by rickerbh on 18/08/2016.
  */
 public class Headers {
+    private static String HEADER_SEPARATOR = ": ";
 
     Map<String, String> headers;
 
@@ -19,7 +20,7 @@ public class Headers {
     public List<String> list() {
         List<String> headerList = new ArrayList<>();
         for (String key : headers.keySet()) {
-            headerList.add(key + ": " + headers.get(key));
+            headerList.add(key + HEADER_SEPARATOR + headers.get(key));
         }
         return headerList;
     }

@@ -7,6 +7,7 @@ import java.util.Scanner;
  * Created by rickerbh on 16/08/2016.
  */
 public class Request {
+    private static String PATH_TRAILING_SYMBOL = "/";
     String method;
     String path;
     String version;
@@ -31,9 +32,9 @@ public class Request {
     }
 
     public String pathWithTrailingSlash() {
-        if (getPath().endsWith("/")) {
+        if (getPath().endsWith(PATH_TRAILING_SYMBOL)) {
             return getPath();
         }
-        return getPath() + "/";
+        return getPath() + PATH_TRAILING_SYMBOL;
     }
 }

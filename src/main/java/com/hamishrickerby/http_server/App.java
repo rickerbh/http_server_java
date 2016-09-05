@@ -6,9 +6,11 @@ import com.hamishrickerby.http_server.responses.ResponseCoordinator;
  * Created by rickerbh on 15/08/2016.
  */
 public class App {
+    private static String DEFAULT_PORT = "5000";
+
     public static void main(String[] args) {
         AppArguments arguments = new AppArguments(args);
-        Integer port = Integer.parseInt(arguments.getOrDefault("-p", "5000"));
+        Integer port = Integer.parseInt(arguments.getOrDefault("-p", DEFAULT_PORT));
         String rootDirectory = arguments.get("-d");
         if (rootDirectory == null) {
             System.err.println("Must provide a root directory with a -d argument.");
