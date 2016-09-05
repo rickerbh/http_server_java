@@ -1,11 +1,10 @@
 package com.hamishrickerby.http_server.responses;
 
-import com.hamishrickerby.http_server.ByteReader;
-import com.hamishrickerby.http_server.ByteWriter;
+import com.hamishrickerby.http_server.Connection;
 
 /**
  * Created by rickerbh on 29/08/2016.
  */
 public interface ResponseCoordinator {
-    void marshalResponse(ByteReader reader, ByteWriter writer);
+    void marshalResponse(Connection connection);
 }

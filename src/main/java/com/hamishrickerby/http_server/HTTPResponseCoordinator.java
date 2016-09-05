@@ -14,20 +14,20 @@ public class HTTPResponseCoordinator implements ResponseCoordinator {
         responseFactory = new ResponseFactory(rootDirectory);
     }
 
-    public void marshalResponse(ByteReader reader, ByteWriter writer) {
-        String requestText = extractRequestText(reader);
+    public void marshalResponse(Connection connection) {
+        String requestText = extractRequestText(connection);
 
         Request request = new Request(requestText);
         Response response = responseFactory.makeResponse(request);
 
-        sendResponse(writer, response);
+        sendResponse(connection, response);
     }
 
-    private String extractRequestText(ByteReader reader) {
-        return new String(reader.read());
+    private String extractRequestText(Connection connection) {
+        return new String(connection.read());
     }
 
-    private void sendResponse(ByteWriter writer, Response response) {
-        writer.write(response.getBytes());
+    private void sendResponse(Connection connection, Response response) {
+        connection.write(response.getBytes());
     }
 }

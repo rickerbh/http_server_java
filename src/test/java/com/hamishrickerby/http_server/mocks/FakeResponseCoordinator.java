@@ -1,7 +1,6 @@
 package com.hamishrickerby.http_server.mocks;
 
-import com.hamishrickerby.http_server.ByteReader;
-import com.hamishrickerby.http_server.ByteWriter;
+import com.hamishrickerby.http_server.Connection;
 import com.hamishrickerby.http_server.responses.ResponseCoordinator;
 
 /**
@@ -11,7 +10,7 @@ public class FakeResponseCoordinator implements ResponseCoordinator {
 
     boolean calledRun = false;
 
-    public void marshalResponse(ByteReader reader, ByteWriter writer) {
+    public void marshalResponse(Connection connection) {
         calledRun = true;
     }
 
