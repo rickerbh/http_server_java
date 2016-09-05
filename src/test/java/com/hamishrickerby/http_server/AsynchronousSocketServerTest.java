@@ -27,8 +27,7 @@ public class AsynchronousSocketServerTest extends TestCase {
         try {
             socket = new Socket(address, portNumber);
         } catch (IOException e) {
-            e.printStackTrace();
-            assertNull(e);
+            fail("Socket should not have raised exception: " + e.getLocalizedMessage());
         }
         assertNotNull(server);
         assertNotNull(socket);
@@ -63,8 +62,7 @@ public class AsynchronousSocketServerTest extends TestCase {
             Scanner s = new Scanner(result);
             assertEquals("HTTP/1.1 200 OK", s.nextLine());
         } catch (IOException e) {
-            e.printStackTrace();
-            assertNull(e);
+            fail("Exception was raised: " + e.getLocalizedMessage());
         } finally {
             server.stop();
         }
@@ -80,7 +78,7 @@ public class AsynchronousSocketServerTest extends TestCase {
             assertNotNull(e);
             return;
         }
-        assertTrue(false);
+        fail("Socket connection should have raised exception as server was closed");
     }
 
     public void testServerClosedAndCloseAgainBranch() {
@@ -94,8 +92,7 @@ public class AsynchronousSocketServerTest extends TestCase {
             assertNotNull(e);
             return;
         }
-        assertTrue(false);
-
+        fail("Socket connection should have raised exception as server was closed");
     }
 
     public void testServerExhibitsSurvivingAndInterruptedBehaviour() {
