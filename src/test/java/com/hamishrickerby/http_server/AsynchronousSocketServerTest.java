@@ -21,7 +21,7 @@ public class AsynchronousSocketServerTest extends TestCase {
     String address = "localhost";
 
     public void testConnectionIsEstablishedSuccessfully() {
-        SocketServer server = establishServer();
+        Server server = establishServer();
 
         Socket socket = null;
         try {
@@ -34,24 +34,23 @@ public class AsynchronousSocketServerTest extends TestCase {
         server.stop();
     }
 
-    private SocketServer establishServer() {
-        SocketServer server = null;
+    private Server establishServer() {
+        Server server = null;
         try {
-            server = new AsynchronousSocketServer();
-            server.bind(portNumber);
+            server = new AsynchronousSocketServer(portNumber);
 
             ResponseCoordinator coordinator = new HTTPResponseCoordinator("");
             server.setResponseCoordinator(coordinator);
 
         } catch (IOException e) {
-            fail("Could not instantiate or bind AsynchronousSocketServer.");
+            fail("Could not instantiate AsynchronousSocketServer.");
         }
         server.start();
         return server;
     }
 
     public void testConnectionRespondsToData() {
-        SocketServer server = establishServer();
+        Server server = establishServer();
         try {
             Socket client = new Socket(address, portNumber);
             byte[] data = "GET / HTTP/1.1".getBytes(Charset.forName("UTF-8"));
@@ -69,7 +68,7 @@ public class AsynchronousSocketServerTest extends TestCase {
     }
 
     public void testServerCloses() {
-        SocketServer server = establishServer();
+        Server server = establishServer();
         server.stop();
         try {
             Socket socket = new Socket(address, portNumber);
@@ -82,7 +81,7 @@ public class AsynchronousSocketServerTest extends TestCase {
     }
 
     public void testServerClosedAndCloseAgainBranch() {
-        SocketServer server = establishServer();
+        Server server = establishServer();
         server.stop();
         server.stop();
         try {

@@ -1,7 +1,7 @@
 package com.hamishrickerby.http_server.helpers;
 
 import com.hamishrickerby.http_server.AsynchronousSocketServer;
-import com.hamishrickerby.http_server.SocketServer;
+import com.hamishrickerby.http_server.Server;
 
 import java.io.IOException;
 
@@ -14,12 +14,11 @@ public class AsynchronousSocketServerTimeoutRunner implements Runnable {
     public Long timeToLive;
 
     public void run() {
-        SocketServer server = null;
+        Server server = null;
         try {
-            server = new AsynchronousSocketServer();
-            server.bind(5000);
+            server = new AsynchronousSocketServer(5000);
         } catch (IOException e) {
-            fail("Server failed to instantiate or bind.");
+            fail("Server failed to instantiate");
         }
         server.start();
         server.awaitTermination(timeToLive);

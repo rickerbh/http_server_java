@@ -12,17 +12,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rickerbh on 29/08/2016.
  */
-public class AsynchronousSocketServer implements SocketServer {
+public class AsynchronousSocketServer implements Server {
+    int portNumber;
 
     final AsynchronousServerSocketChannel listener;
     final AsynchronousChannelGroup group = AsynchronousChannelGroup.withThreadPool(Executors.newSingleThreadExecutor());
     ResponseCoordinator coordinator;
 
-    public AsynchronousSocketServer() throws IOException {
+    public AsynchronousSocketServer(int portNumber) throws IOException {
         listener = AsynchronousServerSocketChannel.open(group);
-    }
-
-    public void bind(int portNumber) throws IOException {
+        this.portNumber = portNumber;
         listener.bind(new InetSocketAddress(portNumber));
     }
 

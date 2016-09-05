@@ -14,11 +14,10 @@ public class App {
             System.err.println("Must provide a root directory with a -d argument.");
             System.exit(1);
         }
-        SocketServer server = null;
+        Server server = null;
 
         try {
-            server = new AsynchronousSocketServer();
-            server.bind(port);
+            server = new AsynchronousSocketServer(port);
 
             ResponseCoordinator coordinator = new HTTPResponseCoordinator(rootDirectory);
             server.setResponseCoordinator(coordinator);
