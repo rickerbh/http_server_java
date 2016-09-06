@@ -16,4 +16,9 @@ public class FileContentsResponse extends FileSystemResponse {
         return server.get(request.getPath());
     }
 
+    public static boolean fileExists(String rootPath, String filePath) {
+        FileServer server = new FileServer(rootPath);
+        return server.fileExists(filePath);
+    }
+
 }

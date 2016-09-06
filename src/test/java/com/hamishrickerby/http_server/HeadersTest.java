@@ -20,4 +20,33 @@ public class HeadersTest extends TestCase {
         assertTrue(headers.list().contains("Content-Length: 100"));
     }
 
+    public void testHeadersParseData() {
+        Headers headers = new Headers();
+        String k1 = "Content-Length";
+        String v1 = "26012";
+        String k2 = "Content-Type";
+        String v2 = "image/gif";
+        String separator = ": ";
+        String crlf = "\r\n";
+        String headerString = new StringBuilder()
+                .append(k1)
+                .append(separator)
+                .append(v1)
+                .append(crlf)
+                .append(k2)
+                .append(separator)
+                .append(v2)
+                .append(crlf)
+                .toString();
+        headers.parse(headerString);
+        assertEquals(v1, headers.get(k1));
+        assertEquals(v2, headers.get(k2));
+    }
+
+    public void testEmptyHeadersParseWithoutException() {
+        Headers headers = new Headers();
+        headers.parse("");
+        assertEquals("", headers.get("non-existant-key"));
+    }
+
 }

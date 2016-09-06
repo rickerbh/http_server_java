@@ -1,7 +1,6 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.FileDirectoryServer;
-import com.hamishrickerby.http_server.FileServer;
 import com.hamishrickerby.http_server.Request;
 
 /**
@@ -20,7 +19,9 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
-        } else if (isFileResponse(request)) {
+        } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath)) {
+            response = new PartialFileContentsResponse(request, rootPath);
+        } else if (FileContentsResponse.fileExists(rootPath, request.getPath())) {
             response = new FileContentsResponse(request, rootPath);
         } else if (isDirectoryResponse(request)) {
             response = new DirectoryListingResponse(request, rootPath);
@@ -28,11 +29,6 @@ public class ResponseFactory {
             response = new FourOhFourResponse(request);
         }
         return response;
-    }
-
-    private boolean isFileResponse(Request request) {
-        FileServer server = new FileServer(rootPath);
-        return server.fileExists(request.getPath());
     }
 
     private boolean isDirectoryResponse(Request request) {

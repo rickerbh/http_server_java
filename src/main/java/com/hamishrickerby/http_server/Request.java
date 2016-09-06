@@ -11,12 +11,26 @@ public class Request {
     String method;
     String path;
     String version;
+    Headers headers;
 
     public Request(String inputText) {
         Scanner s = new Scanner(inputText);
         method = s.next();
         path = Paths.get(s.next()).normalize().toString();
         version = s.next();
+
+        headers = new Headers();
+        parseOutHeaders(s);
+    }
+
+    private void parseOutHeaders(Scanner scanner) {
+        StringBuilder headerBuilder = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            headerBuilder
+                    .append(scanner.nextLine())
+                    .append("\r\n");
+        }
+        headers.parse(headerBuilder.toString());
     }
 
     public String getMethod() {
@@ -36,5 +50,9 @@ public class Request {
             return getPath();
         }
         return getPath() + PATH_TRAILING_SYMBOL;
+    }
+
+    public String getHeader(String key) {
+        return headers.get(key);
     }
 }

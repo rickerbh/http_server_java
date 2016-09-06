@@ -12,9 +12,9 @@ import java.util.Arrays;
  * Created by rickerbh on 17/08/2016.
  */
 public class FileContentsResponseTest extends TestCase {
+    String rootDir = "./src/test/resources";
 
     public void testFileContentsRetrieved() {
-        String rootDir = "./src/test/resources";
         FileContentsResponse response = new FileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"), rootDir);
         byte[] contents = response.body();
 
@@ -28,5 +28,10 @@ public class FileContentsResponseTest extends TestCase {
         }
 
         assertTrue(Arrays.equals(expectedContents, contents));
+    }
+
+    public void testFileExists() {
+        assertTrue(FileContentsResponse.fileExists(rootDir, "/subdirectory/file.txt"));
+        assertFalse(FileContentsResponse.fileExists(rootDir, "/no-exist"));
     }
 }
