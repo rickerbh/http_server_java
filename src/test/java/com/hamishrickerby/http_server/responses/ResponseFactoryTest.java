@@ -46,5 +46,12 @@ public class ResponseFactoryTest extends TestCase {
         assertTrue((response instanceof FourEightTeenResponse));
     }
 
+    public void testResponseIsPartial() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources");
+        Request request = new Request("GET /test.html HTTP/1.1\r\nRange: 0-10\r\n");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof PartialFileContentsResponse));
+    }
+
 }
 

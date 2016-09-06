@@ -19,6 +19,8 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
+        } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath)) {
+            response = new PartialFileContentsResponse(request, rootPath);
         } else if (FileContentsResponse.fileExists(rootPath, request.getPath())) {
             response = new FileContentsResponse(request, rootPath);
         } else if (isDirectoryResponse(request)) {
