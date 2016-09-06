@@ -10,12 +10,12 @@ public class RequestRangeTest extends TestCase {
     public void testRangeWithStartAndEnd() {
         RequestRange range = new RequestRange("0-6", 10);
         assertEquals(0, range.getStart());
-        assertEquals(6, range.getEnd());
+        assertEquals(7, range.getEnd());
     }
 
     public void testRangeWithStartOnly() {
         RequestRange range = new RequestRange("3-", 10);
-        assertEquals(7, range.getStart());
+        assertEquals(3, range.getStart());
         assertEquals(10, range.getEnd());
     }
 

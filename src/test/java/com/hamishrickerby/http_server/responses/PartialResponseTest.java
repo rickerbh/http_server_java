@@ -15,7 +15,7 @@ public class PartialResponseTest extends TestCase {
     }
 
     public void testBodySupportsStartAndEndRange() {
-        String bodyString = rangeBody("0", "4");
+        String bodyString = rangeBody("0", "3");
         assertEquals("This", bodyString);
     }
 
@@ -40,7 +40,7 @@ public class PartialResponseTest extends TestCase {
 
     public void testBodySupportsStartRangeOnly() {
         String bodyString = rangeBody("11", "");
-        assertEquals("text file.\n", bodyString);
+        assertEquals("example text file.\n", bodyString);
     }
 
     public void testResponseValidity() {

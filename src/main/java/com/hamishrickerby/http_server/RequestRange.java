@@ -14,9 +14,9 @@ public class RequestRange {
         rangeText = range;
         if (hasStart() && hasEnd()) {
             start = rangeStart();
-            end = rangeEnd();
+            end = rangeEnd() + 1;
         } else if (hasStart() && !hasEnd()) {
-            start = maxRange - rangeStart();
+            start = rangeStart();
             end = maxRange;
         } else if (!hasStart() && hasEnd()) {
             start = maxRange - rangeEnd();
