@@ -12,7 +12,7 @@ public class HTTPResponseCoordinator implements ResponseCoordinator {
     Logger logger;
 
     public HTTPResponseCoordinator(String rootDirectory, Logger logger) {
-        responseFactory = new ResponseFactory(rootDirectory);
+        responseFactory = new ResponseFactory(rootDirectory, logger);
         this.logger = logger;
     }
 
