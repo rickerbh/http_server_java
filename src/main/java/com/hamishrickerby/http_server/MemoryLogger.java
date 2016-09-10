@@ -20,4 +20,8 @@ public class MemoryLogger implements Logger {
     public String read() {
         return logs.toString();
     }
+
+    public static Boolean respondsTo(Request request) {
+        return request.getPath().equalsIgnoreCase("/logs");
+    }
 }

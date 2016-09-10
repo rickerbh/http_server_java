@@ -7,4 +7,8 @@ public interface Logger {
     void log(String message);
 
     String read();
+
+    static Boolean respondsTo(Request request) {
+        throw new UnsupportedOperationException();
+    }
 }
