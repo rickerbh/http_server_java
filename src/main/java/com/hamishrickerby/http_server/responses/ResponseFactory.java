@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.FileDirectoryServer;
+import com.hamishrickerby.http_server.Logger;
 import com.hamishrickerby.http_server.Request;
 
 /**
@@ -8,9 +9,11 @@ import com.hamishrickerby.http_server.Request;
  */
 public class ResponseFactory {
     String rootPath;
+    Logger logger;
 
-    public ResponseFactory(String rootPath) {
+    public ResponseFactory(String rootPath, Logger logger) {
         this.rootPath = rootPath;
+        this.logger = logger;
     }
 
     public Response makeResponse(Request request) {
@@ -19,6 +22,8 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
+        } else if (LogsResponse.respondsTo(request)) {
+            response = new LogsResponse(request, logger);
         } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath)) {
             response = new PartialFileContentsResponse(request, rootPath);
         } else if (FileContentsResponse.fileExists(rootPath, request.getPath())) {

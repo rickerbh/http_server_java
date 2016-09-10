@@ -20,7 +20,7 @@ public class AsynchronousSocketChannelCompletionHandlerTest extends TestCase {
     }
 
     private String runRequestAndGetResponse(String request) {
-        ResponseCoordinator coordinator = new HTTPResponseCoordinator("./src/test/resources");
+        ResponseCoordinator coordinator = new HTTPResponseCoordinator("./src/test/resources", null);
         AsynchronousSocketChannelCompletionHandler handler = new AsynchronousSocketChannelCompletionHandler(new MockAsynchronousServerSocketChannel(null));
         handler.setResponseCoordinator(coordinator);
         MockAsynchronousSocketChannel channel = new MockAsynchronousSocketChannel(null);

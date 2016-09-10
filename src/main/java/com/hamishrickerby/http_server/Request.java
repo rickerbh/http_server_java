@@ -8,12 +8,14 @@ import java.util.Scanner;
  */
 public class Request {
     private static String PATH_TRAILING_SYMBOL = "/";
+    String requestString;
     String method;
     String path;
     String version;
     Headers headers;
 
     public Request(String inputText) {
+        requestString = inputText;
         Scanner s = new Scanner(inputText);
         method = s.next();
         path = Paths.get(s.next()).normalize().toString();
@@ -54,5 +56,9 @@ public class Request {
 
     public String getHeader(String key) {
         return headers.get(key);
+    }
+
+    public String getRequestString() {
+        return requestString;
     }
 }
