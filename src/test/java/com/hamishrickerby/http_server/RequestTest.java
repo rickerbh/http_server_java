@@ -9,6 +9,7 @@ public class RequestTest extends TestCase {
     public void testRequestParsesFieldsAndMakesValuesAccessible() {
         String requestText = "GET / HTTP/1.1";
         Request request = new Request(requestText);
+        assertEquals(requestText, request.getRequestString());
         assertEquals("GET", request.getMethod());
         assertEquals("/", request.getPath());
         assertEquals("HTTP/1.1", request.getVersion());
