@@ -21,7 +21,8 @@ public class App {
         try {
             server = new AsynchronousSocketServer(port);
 
-            ResponseCoordinator coordinator = new HTTPResponseCoordinator(rootDirectory);
+            Logger logger = new MemoryLogger();
+            ResponseCoordinator coordinator = new HTTPResponseCoordinator(rootDirectory, logger);
             server.setResponseCoordinator(coordinator);
 
             server.start();

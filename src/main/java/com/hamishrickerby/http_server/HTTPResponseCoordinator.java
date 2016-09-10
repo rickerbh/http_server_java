@@ -9,18 +9,28 @@ import com.hamishrickerby.http_server.responses.ResponseFactory;
  */
 public class HTTPResponseCoordinator implements ResponseCoordinator {
     ResponseFactory responseFactory;
+    Logger logger;
 
-    public HTTPResponseCoordinator(String rootDirectory) {
+    public HTTPResponseCoordinator(String rootDirectory, Logger logger) {
         responseFactory = new ResponseFactory(rootDirectory);
+        this.logger = logger;
     }
 
     public void marshalResponse(Connection connection) {
         String requestText = extractRequestText(connection);
 
         Request request = new Request(requestText);
+        logRequest(request);
         Response response = responseFactory.makeResponse(request);
 
         sendResponse(connection, response);
+    }
+
+    private void logRequest(Request request) {
+        if (logger == null) {
+            return;
+        }
+        logger.log(request.getRequestString());
     }
 
     private String extractRequestText(Connection connection) {

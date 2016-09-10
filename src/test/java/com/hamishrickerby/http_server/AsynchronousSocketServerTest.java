@@ -42,7 +42,7 @@ public class AsynchronousSocketServerTest extends TestCase {
         try {
             server = new AsynchronousSocketServer(portNumber);
 
-            ResponseCoordinator coordinator = new HTTPResponseCoordinator("");
+            ResponseCoordinator coordinator = new HTTPResponseCoordinator("", null);
             server.setResponseCoordinator(coordinator);
 
         } catch (IOException e) {
@@ -131,7 +131,7 @@ public class AsynchronousSocketServerTest extends TestCase {
         int iterations = 1500;
         CountDownLatch latch = new CountDownLatch(iterations);
         Executor executor = Executors.newWorkStealingPool();
-        
+
         Server server = establishServer();
         for (int i = 0; i < iterations; i++) {
             executor.execute(() -> {
