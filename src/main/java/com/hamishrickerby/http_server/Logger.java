@@ -8,6 +8,8 @@ public interface Logger {
 
     String read();
 
+    void flush();
+
     static Boolean respondsTo(Request request) {
         throw new UnsupportedOperationException();
     }

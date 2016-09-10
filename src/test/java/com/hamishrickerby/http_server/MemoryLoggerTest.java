@@ -25,4 +25,11 @@ public class MemoryLoggerTest extends TestCase {
         request = new Request("GET /no-logs-here HTTP/1.1");
         assertFalse(MemoryLogger.respondsTo(request));
     }
+
+    public void testLoggerFlushes() {
+        Logger logger = new MemoryLogger();
+        logger.log("Log this line");
+        logger.flush();
+        assertEquals("", logger.read());
+    }
 }

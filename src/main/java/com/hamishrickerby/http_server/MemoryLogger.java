@@ -8,7 +8,7 @@ public class MemoryLogger implements Logger {
     StringBuilder logs;
 
     public MemoryLogger() {
-        logs = new StringBuilder();
+        flush();
     }
 
     @Override
@@ -19,6 +19,11 @@ public class MemoryLogger implements Logger {
     @Override
     public String read() {
         return logs.toString();
+    }
+
+    @Override
+    public void flush() {
+        logs = new StringBuilder();
     }
 
     public static Boolean respondsTo(Request request) {
