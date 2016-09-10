@@ -26,7 +26,4 @@ public class MemoryLogger implements Logger {
         logs = new StringBuilder();
     }
 
-    public static Boolean respondsTo(Request request) {
-        return request.getPath().equalsIgnoreCase("/logs");
-    }
 }
