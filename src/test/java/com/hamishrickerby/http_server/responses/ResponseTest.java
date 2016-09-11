@@ -1,7 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
-import com.hamishrickerby.http_server.mocks.MockResponse;
+import com.hamishrickerby.http_server.mocks.FakeResponse;
 import junit.framework.TestCase;
 
 import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
@@ -12,16 +12,34 @@ import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertR
  */
 public class ResponseTest extends TestCase {
     public void testSuccessfulRequestResponseWith200() {
-        Response response = new MockResponse(new Request("GET / HTTP/1.1"));
+        Response response = new FakeResponse(new Request("GET / HTTP/1.1"));
         assertResponseCodeEquals("200", response);
         assertResponseReasonEquals("OK", response);
     }
 
     public void testLineBreaksAreCRLFOnHeader() {
-        Response response = new MockResponse(new Request("GET / HTTP/1.1"));
+        Response response = new FakeResponse(new Request("GET / HTTP/1.1"));
         byte[] responseBytes = response.getBytes();
 
         String responseText = new String(responseBytes);
         assertTrue(responseText.startsWith("HTTP/1.1 200 OK\r\n\r\n"));
+    }
+
+    public void testGetResponseBody() {
+        FakeResponse response = new FakeResponse(new Request("GET / HTTP/1.1"));
+        response.setBody("I should be visible".getBytes());
+
+        byte[] responseBytes = response.getBytes();
+        String responseText = new String(responseBytes);
+        assertTrue(responseText.contains("visible"));
+    }
+
+    public void testHeadResponseBody() {
+        FakeResponse response = new FakeResponse(new Request("HEAD / HTTP/1.1"));
+        response.setBody("I should be invisible".getBytes());
+
+        byte[] responseBytes = response.getBytes();
+        String responseText = new String(responseBytes);
+        assertFalse(responseText.contains("invisible"));
     }
 }

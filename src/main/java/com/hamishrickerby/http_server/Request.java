@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Request {
     private static String PATH_TRAILING_SYMBOL = "/";
     String requestString;
-    String method;
+    Method method;
     String path;
     String version;
     Headers headers;
@@ -18,7 +18,7 @@ public class Request {
     public Request(String inputText) {
         requestString = inputText;
         Scanner s = new Scanner(inputText);
-        method = s.next();
+        method = Method.valueOf(s.next());
         path = Paths.get(s.next()).normalize().toString();
         version = s.next();
 
@@ -36,7 +36,7 @@ public class Request {
         headers.parse(headerBuilder.toString());
     }
 
-    public String getMethod() {
+    public Method getMethod() {
         return method;
     }
 
