@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server;
 
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Scanner;
 
 /**
@@ -61,4 +62,35 @@ public class Request {
     public String getRequestString() {
         return requestString;
     }
+
+    public String getAuthUser() {
+        return getAuthenticationFields()[0];
+    }
+
+    private String[] getAuthenticationFields() {
+        String[] emptyAuth = {"", ""};
+        String authRequestText = getHeader("Authorization");
+        if (authRequestText.isEmpty()) {
+            return emptyAuth;
+        }
+
+        authRequestText = trimAuthMethod(authRequestText);
+        authRequestText = decodeAuthCredentials(authRequestText);
+
+        return authRequestText.split(":");
+    }
+
+    private String trimAuthMethod(String text) {
+        return text.replaceFirst("Basic ", "");
+    }
+
+    private String decodeAuthCredentials(String credentials) {
+        return new String(Base64.getDecoder().decode(credentials));
+    }
+
+
+    public String getAuthPassword() {
+        return getAuthenticationFields()[1];
+    }
+
 }
