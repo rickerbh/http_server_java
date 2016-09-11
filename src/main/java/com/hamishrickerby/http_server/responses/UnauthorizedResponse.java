@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.Headers;
 import com.hamishrickerby.http_server.Request;
 
 /**
@@ -25,4 +26,12 @@ public class UnauthorizedResponse extends Response {
     protected byte[] body() {
         return new byte[0];
     }
+
+    @Override
+    protected String[] headers() {
+        Headers headers = new Headers();
+        headers.put("WWW-Authenticate", "Basic");
+        return headers.list().stream().toArray(String[]::new);
+    }
+
 }
