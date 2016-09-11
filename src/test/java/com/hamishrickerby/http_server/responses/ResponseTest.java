@@ -24,4 +24,22 @@ public class ResponseTest extends TestCase {
         String responseText = new String(responseBytes);
         assertTrue(responseText.startsWith("HTTP/1.1 200 OK\r\n\r\n"));
     }
+
+    public void testGetResponseBody() {
+        FakeResponse response = new FakeResponse(new Request("GET / HTTP/1.1"));
+        response.setBody("I should be visible".getBytes());
+
+        byte[] responseBytes = response.getBytes();
+        String responseText = new String(responseBytes);
+        assertTrue(responseText.contains("visible"));
+    }
+
+    public void testHeadResponseBody() {
+        FakeResponse response = new FakeResponse(new Request("HEAD / HTTP/1.1"));
+        response.setBody("I should be invisible".getBytes());
+
+        byte[] responseBytes = response.getBytes();
+        String responseText = new String(responseBytes);
+        assertFalse(responseText.contains("invisible"));
+    }
 }

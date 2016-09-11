@@ -18,7 +18,15 @@ public abstract class Response {
 
     public byte[] getBytes() {
         byte[] status = statusLine().getBytes();
-        byte[] body = body();
+        byte[] body;
+
+        switch (request.getMethod()) {
+            case HEAD:
+                body = new byte[0];
+                break;
+            default:
+                body = body();
+        }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
