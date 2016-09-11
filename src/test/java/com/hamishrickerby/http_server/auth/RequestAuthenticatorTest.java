@@ -1,14 +1,15 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.auth;
 
+import com.hamishrickerby.http_server.Request;
 import junit.framework.TestCase;
 
 /**
  * Created by rickerbh on 11/09/2016.
  */
-public class AuthenticatorTest extends TestCase {
+public class RequestAuthenticatorTest extends TestCase {
 
     public void testCredentialsVerification() {
-        Authenticator authenticator = new Authenticator();
+        RequestAuthenticator authenticator = new RequestAuthenticator();
         authenticator.addCredentials("user", "pass");
         assertTrue(authenticator.authenticate("user", "pass"));
         assertFalse(authenticator.authenticate("user", "fail"));
@@ -17,7 +18,7 @@ public class AuthenticatorTest extends TestCase {
     }
 
     public void testRouteProtection() {
-        Authenticator authenticator = new Authenticator();
+        RequestAuthenticator authenticator = new RequestAuthenticator();
         String protectedRoute = "/protected";
         authenticator.addRoute(protectedRoute);
         assertTrue(authenticator.isProtected(protectedRoute));
@@ -25,7 +26,7 @@ public class AuthenticatorTest extends TestCase {
     }
 
     public void testRequestAuthenticationInterface() {
-        Authenticator authenticator = new Authenticator();
+        RequestAuthenticator authenticator = new RequestAuthenticator();
         authenticator.addCredentials("user", "pass");
         authenticator.addRoute("/protected");
         Request request = new Request("GET /protected HTTP/1.1");

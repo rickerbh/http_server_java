@@ -1,4 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.auth;
+
+import com.hamishrickerby.http_server.Request;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,11 +10,11 @@ import java.util.Set;
 /**
  * Created by rickerbh on 11/09/2016.
  */
-public class Authenticator implements RequestAuthenticator {
+public class RequestAuthenticator implements Authenticator {
     Map<String, String> credentials;
     Set<String> routes;
 
-    public Authenticator() {
+    public RequestAuthenticator() {
         credentials = new HashMap<>();
         routes = new HashSet<>();
     }
