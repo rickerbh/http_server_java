@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.auth.RequestAuthenticator;
 import junit.framework.TestCase;
 
 /**
@@ -58,6 +59,20 @@ public class ResponseFactoryTest extends TestCase {
         Request request = new Request("GET /logs HTTP/1.1");
         Response response = factory.makeResponse(request);
         assertTrue((response instanceof LogsResponse));
+    }
+
+    public void testProtectedRoute() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources", null);
+        RequestAuthenticator auth = new RequestAuthenticator();
+        auth.addRoute("/logs");
+        auth.addCredentials("Aladdin", "OpenSesame");
+        factory.setAuthenticator(auth);
+        Request request = new Request("GET /logs HTTP/1.1\r\nAuthorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l\r\n");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof LogsResponse));
+        auth.addCredentials("Aladdin", "failing-password");
+        response = factory.makeResponse(request);
+        assertTrue((response instanceof UnauthorizedResponse));
     }
 
 }

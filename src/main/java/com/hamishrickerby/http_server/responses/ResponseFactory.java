@@ -3,6 +3,7 @@ package com.hamishrickerby.http_server.responses;
 import com.hamishrickerby.http_server.FileDirectoryServer;
 import com.hamishrickerby.http_server.Logger;
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.auth.Authenticator;
 
 /**
  * Created by rickerbh on 17/08/2016.
@@ -11,6 +12,8 @@ public class ResponseFactory {
     String rootPath;
     Logger logger;
 
+    Authenticator authenticator;
+
     public ResponseFactory(String rootPath, Logger logger) {
         this.rootPath = rootPath;
         this.logger = logger;
@@ -18,7 +21,10 @@ public class ResponseFactory {
 
     public Response makeResponse(Request request) {
         Response response;
-        if (RedirectResponse.existsFor(request.getPath())) {
+
+        if (authenticator != null && !authenticator.authenticate(request)) {
+            response = new UnauthorizedResponse(request);
+        } else if (RedirectResponse.existsFor(request.getPath())) {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
@@ -34,6 +40,10 @@ public class ResponseFactory {
             response = new FourOhFourResponse(request);
         }
         return response;
+    }
+
+    public void setAuthenticator(Authenticator authenticator) {
+        this.authenticator = authenticator;
     }
 
     private boolean isDirectoryResponse(Request request) {
