@@ -9,20 +9,20 @@ public class RequestTest extends TestCase {
     static String CRLF = "\r\n";
 
     public void testRequestParsesFieldsAndMakesValuesAccessible() {
-        String requestText = "GET / HTTP/1.1";
+        String requestText = Method.GET.name() + " / HTTP/1.1";
         Request request = new Request(requestText);
         assertEquals(requestText, request.getRequestString());
-        assertEquals("GET", request.getMethod());
+        assertEquals(Method.GET, request.getMethod());
         assertEquals("/", request.getPath());
         assertEquals("HTTP/1.1", request.getVersion());
     }
 
     public void testTrailingSlashOnDirectoriesAppearsWhenGettingSubdirectories() {
-        String requestText = "GET /subdirectory HTTP/1.1";
+        String requestText = Method.GET.name() + " /subdirectory HTTP/1.1";
         Request request = new Request(requestText);
         assertEquals("/subdirectory/", request.pathWithTrailingSlash());
 
-        requestText = "GET /subdirectory/ HTTP/1.1";
+        requestText = Method.GET.name() + " /subdirectory/ HTTP/1.1";
         request = new Request(requestText);
         assertEquals("/subdirectory/", request.pathWithTrailingSlash());
     }
@@ -45,7 +45,9 @@ public class RequestTest extends TestCase {
                 .toString();
 
         String requestText = new StringBuilder()
-                .append("GET /subdirectory HTTP/1.1")
+                .append(Method.GET.name())
+                .append(" ")
+                .append("/subdirectory HTTP/1.1")
                 .append(CRLF)
                 .append(headerString)
                 .toString();
@@ -56,7 +58,9 @@ public class RequestTest extends TestCase {
 
     public void testRequestAuthIsParsedOut() {
         String requestText = new StringBuilder()
-                .append("GET /protected HTTP/1.1")
+                .append(Method.GET.name())
+                .append(" ")
+                .append("/protected HTTP/1.1")
                 .append(CRLF)
                 .append("Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l")
                 .append(CRLF)
