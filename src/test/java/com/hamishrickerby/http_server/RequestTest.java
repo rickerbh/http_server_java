@@ -6,6 +6,8 @@ import junit.framework.TestCase;
  * Created by rickerbh on 16/08/2016.
  */
 public class RequestTest extends TestCase {
+    static String CRLF = "\r\n";
+
     public void testRequestParsesFieldsAndMakesValuesAccessible() {
         String requestText = "GET / HTTP/1.1";
         Request request = new Request(requestText);
@@ -31,24 +33,37 @@ public class RequestTest extends TestCase {
         String k2 = "Content-Type";
         String v2 = "image/gif";
         String separator = ": ";
-        String crlf = "\r\n";
         String headerString = new StringBuilder()
                 .append(k1)
                 .append(separator)
                 .append(v1)
-                .append(crlf)
+                .append(CRLF)
                 .append(k2)
                 .append(separator)
                 .append(v2)
-                .append(crlf)
+                .append(CRLF)
                 .toString();
 
         String requestText = new StringBuilder()
-                .append("GET /subdirectory HTTP/1.1\r\n")
+                .append("GET /subdirectory HTTP/1.1")
+                .append(CRLF)
                 .append(headerString)
                 .toString();
         Request request = new Request(requestText);
         assertEquals(v1, request.getHeader(k1));
         assertEquals(v2, request.getHeader(k2));
     }
+
+    public void testRequestAuthIsParsedOut() {
+        String requestText = new StringBuilder()
+                .append("GET /protected HTTP/1.1")
+                .append(CRLF)
+                .append("Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l")
+                .append(CRLF)
+                .toString();
+        Request request = new Request(requestText);
+        assertEquals("Aladdin", request.getAuthUser());
+        assertEquals("OpenSesame", request.getAuthPassword());
+    }
+
 }

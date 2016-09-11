@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.auth.Authenticator;
 import com.hamishrickerby.http_server.responses.Response;
 import com.hamishrickerby.http_server.responses.ResponseCoordinator;
 import com.hamishrickerby.http_server.responses.ResponseFactory;
@@ -40,4 +41,9 @@ public class HTTPResponseCoordinator implements ResponseCoordinator {
     private void sendResponse(Connection connection, Response response) {
         connection.write(response.getBytes());
     }
+
+    public void setAuthenticator(Authenticator authenticator) {
+        responseFactory.setAuthenticator(authenticator);
+    }
+
 }
