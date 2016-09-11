@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server;
 
-import com.hamishrickerby.http_server.responses.ResponseCoordinator;
+import com.hamishrickerby.http_server.auth.Authenticator;
+import com.hamishrickerby.http_server.auth.RequestAuthenticator;
 
 /**
  * Created by rickerbh on 15/08/2016.
@@ -22,7 +23,8 @@ public class App {
             server = new AsynchronousSocketServer(port);
 
             Logger logger = new MemoryLogger();
-            ResponseCoordinator coordinator = new HTTPResponseCoordinator(rootDirectory, logger);
+            HTTPResponseCoordinator coordinator = new HTTPResponseCoordinator(rootDirectory, logger);
+            coordinator.setAuthenticator(getAuthenticator());
             server.setResponseCoordinator(coordinator);
 
             server.start();
@@ -36,5 +38,12 @@ public class App {
         } finally {
             server.stop();
         }
+    }
+
+    public static Authenticator getAuthenticator() {
+        RequestAuthenticator authenticator = new RequestAuthenticator();
+        authenticator.addRoute("/logs");
+        authenticator.addCredentials("admin", "hunter2");
+        return authenticator;
     }
 }
