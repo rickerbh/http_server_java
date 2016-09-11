@@ -1,5 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.async;
 
+import com.hamishrickerby.http_server.HTTPResponseCoordinator;
 import com.hamishrickerby.http_server.mocks.FakeResponseCoordinator;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousServerSocketChannel;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousSocketChannel;

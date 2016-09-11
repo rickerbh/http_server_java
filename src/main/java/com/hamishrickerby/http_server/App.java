@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server;
 
+import com.hamishrickerby.http_server.async.AsynchronousSocketServer;
 import com.hamishrickerby.http_server.auth.Authenticator;
 import com.hamishrickerby.http_server.auth.RequestAuthenticator;
 

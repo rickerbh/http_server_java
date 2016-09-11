@@ -1,4 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.async;
+
+import com.hamishrickerby.http_server.ByteReader;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;

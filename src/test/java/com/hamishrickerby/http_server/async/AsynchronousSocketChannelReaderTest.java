@@ -1,5 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.async;
 
+import com.hamishrickerby.http_server.ByteReader;
 import com.hamishrickerby.http_server.mocks.MockAsynchronousSocketChannel;
 import junit.framework.TestCase;
 

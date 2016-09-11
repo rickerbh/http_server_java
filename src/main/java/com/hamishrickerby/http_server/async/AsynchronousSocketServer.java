@@ -1,5 +1,6 @@
-package com.hamishrickerby.http_server;
+package com.hamishrickerby.http_server.async;
 
+import com.hamishrickerby.http_server.Server;
 import com.hamishrickerby.http_server.responses.ResponseCoordinator;
 
 import java.io.IOException;

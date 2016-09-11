@@ -1,7 +1,7 @@
 package com.hamishrickerby.http_server.helpers;
 
-import com.hamishrickerby.http_server.AsynchronousSocketServer;
 import com.hamishrickerby.http_server.Server;
+import com.hamishrickerby.http_server.async.AsynchronousSocketServer;
 
 import java.io.IOException;
 
