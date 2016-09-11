@@ -39,4 +39,13 @@ public class RequestAuthenticatorTest extends TestCase {
         assertTrue(authenticator.authenticate(request));
     }
 
+    public void testEmptyAuthenticationFieldsFail() {
+        RequestAuthenticator authenticator = new RequestAuthenticator();
+        authenticator.addCredentials("user", "pass");
+        authenticator.addRoute("/protected");
+        Request request = new Request("GET /protected HTTP/1.1\r\n");
+        assertFalse(authenticator.authenticate(request));
+
+    }
+
 }
