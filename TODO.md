@@ -2,7 +2,7 @@
 
 Below are the acceptance tests from https://github.com/8thlight/cob_spec, and their current states (manually maintained, may be out of date!)
 
-- [ ] Basic Auth
+- [X] Basic Auth
 - [X] Directory Links
 - [X] Directory Listing
 - [X] File Contents
