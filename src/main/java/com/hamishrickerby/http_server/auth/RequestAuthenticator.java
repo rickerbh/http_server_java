@@ -24,11 +24,11 @@ public class RequestAuthenticator implements Authenticator {
     }
 
     @Override
-    public Boolean authenticate(Request request, String user, String pass) {
+    public Boolean authenticate(Request request) {
         if (!isProtected(request.getPath())) {
             return true;
         }
-        return authenticate(user, pass);
+        return authenticate(request.getAuthUser(), request.getAuthPassword());
     }
 
     public Boolean authenticate(String user, String pass) {
