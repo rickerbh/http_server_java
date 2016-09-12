@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.MemoryFormStore;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.auth.RequestAuthenticator;
 import junit.framework.TestCase;
@@ -75,5 +76,12 @@ public class ResponseFactoryTest extends TestCase {
         assertTrue((response instanceof UnauthorizedResponse));
     }
 
+    public void testResponseIsForm() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources", null);
+        factory.setFormStore(new MemoryFormStore());
+        Request request = new Request("POST /form HTTP/1.1\r\n\r\nkey=value&abc=123\r\n");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof FormResponse));
+    }
 }
 
