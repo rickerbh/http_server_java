@@ -70,4 +70,53 @@ public class RequestTest extends TestCase {
         assertEquals("OpenSesame", request.getAuthPassword());
     }
 
+    public void testRequestDataIsParsedOut() {
+        String requestText = new StringBuilder()
+                .append(Method.POST.name())
+                .append(" ")
+                .append("/form HTTP/1.1")
+                .append(CRLF)
+                .append(CRLF)
+                .append("key=value&abc=123")
+                .append(CRLF)
+                .toString();
+        Request request = new Request(requestText);
+        assertEquals("value", request.readData("key"));
+        assertEquals("123", request.readData("abc"));
+        assertEquals("", request.readData("not-here"));
+    }
+
+    public void testRequestDataIsParsedOutWithHeaders() {
+        String requestText = new StringBuilder()
+                .append(Method.POST.name())
+                .append(" ")
+                .append("/form HTTP/1.1")
+                .append(CRLF)
+                .append("Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l")
+                .append(CRLF)
+                .append(CRLF)
+                .append("key=value&abc=123")
+                .append(CRLF)
+                .toString();
+        Request request = new Request(requestText);
+        assertEquals("Aladdin", request.getAuthUser());
+        assertEquals("OpenSesame", request.getAuthPassword());
+        assertEquals("value", request.readData("key"));
+        assertEquals("123", request.readData("abc"));
+        assertEquals("", request.readData("not-here"));
+    }
+
+    public void testRequestDataReturnsAllKeys() {
+        String requestText = new StringBuilder()
+                .append(Method.POST.name())
+                .append(" ")
+                .append("/form HTTP/1.1")
+                .append(CRLF)
+                .append(CRLF)
+                .append("key=value&abc=123")
+                .append(CRLF)
+                .toString();
+        Request request = new Request(requestText);
+        assertEquals(2, request.dataKeys().size());
+    }
 }
