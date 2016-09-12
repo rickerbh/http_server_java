@@ -1,19 +1,20 @@
 package com.hamishrickerby.http_server;
 
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by rickerbh on 16/08/2016.
  */
 public class Request {
     private static String PATH_TRAILING_SYMBOL = "/";
+    private static String CRLF = "\r\n";
     String requestString;
     Method method;
     String path;
     String version;
     Headers headers;
+    Map<String, String> data;
 
     public Request(String inputText) {
         requestString = inputText;
@@ -22,18 +23,47 @@ public class Request {
         path = Paths.get(s.next()).normalize().toString();
         version = s.next();
 
+        // Move the scanner to the next line if there is one for headers/data.
+        if (s.hasNextLine()) {
+            s.nextLine();
+        }
+
         headers = new Headers();
         parseOutHeaders(s);
+
+        data = new HashMap<>();
+        parseOutData(s);
     }
 
     private void parseOutHeaders(Scanner scanner) {
         StringBuilder headerBuilder = new StringBuilder();
-        while (scanner.hasNextLine()) {
-            headerBuilder
-                    .append(scanner.nextLine())
-                    .append("\r\n");
+        boolean inHeaders = true;
+        while (inHeaders && scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            if (line.isEmpty()) {
+                inHeaders = false;
+            } else {
+                headerBuilder
+                        .append(line)
+                        .append(CRLF);
+            }
         }
         headers.parse(headerBuilder.toString());
+    }
+
+    private void parseOutData(Scanner scanner) {
+        if (!scanner.hasNextLine()) {
+            return;
+        }
+        String line = scanner.nextLine();
+
+        Scanner dataScanner = new Scanner(line);
+        dataScanner.useDelimiter("&");
+
+        while (dataScanner.hasNext()) {
+            String[] parts = dataScanner.next().split("=");
+            data.put(parts[0], parts[1]);
+        }
     }
 
     public Method getMethod() {
@@ -91,6 +121,14 @@ public class Request {
 
     public String getAuthPassword() {
         return getAuthenticationFields()[1];
+    }
+
+    public String readData(String key) {
+        return data.getOrDefault(key, "");
+    }
+
+    public Set<String> dataKeys() {
+        return data.keySet();
     }
 
 }

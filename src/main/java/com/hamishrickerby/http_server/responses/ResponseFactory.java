@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.FileDirectoryServer;
+import com.hamishrickerby.http_server.FormStore;
 import com.hamishrickerby.http_server.Logger;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.auth.Authenticator;
@@ -13,6 +14,7 @@ public class ResponseFactory {
     Logger logger;
 
     Authenticator authenticator;
+    FormStore store;
 
     public ResponseFactory(String rootPath, Logger logger) {
         this.rootPath = rootPath;
@@ -28,6 +30,8 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
+        } else if (FormResponse.respondsTo(request)) {
+            response = new FormResponse(request, store);
         } else if (LogsResponse.respondsTo(request)) {
             response = new LogsResponse(request, logger);
         } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath)) {
@@ -44,6 +48,10 @@ public class ResponseFactory {
 
     public void setAuthenticator(Authenticator authenticator) {
         this.authenticator = authenticator;
+    }
+
+    public void setFormStore(FormStore store) {
+        this.store = store;
     }
 
     private boolean isDirectoryResponse(Request request) {
