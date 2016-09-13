@@ -19,5 +19,5 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Simple Head
 - [ ] Simple Option
 - [X] Simple Post
-- [ ] Simple Put
+- [X] Simple Put
 - [X] Time To Complete

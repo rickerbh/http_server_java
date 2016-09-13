@@ -4,6 +4,9 @@ import com.hamishrickerby.http_server.FormStore;
 import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by rickerbh on 12/09/2016.
  */
@@ -18,12 +21,17 @@ public class FormResponse extends Response {
     }
 
     private void saveDataIfNeeded() {
-        if (request.getMethod() != Method.POST) {
+        if (!updatingMethods().contains(request.getMethod())) {
             return;
         }
         for (String key : request.dataKeys()) {
             store.write(key, request.readData(key));
         }
+    }
+
+    private List<String> updatingMethods() {
+        String[] methods = {Method.POST.name(), Method.PUT.name()};
+        return Arrays.asList(methods);
     }
 
     public static Boolean respondsTo(Request request) {
