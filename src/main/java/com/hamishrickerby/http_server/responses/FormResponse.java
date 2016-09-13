@@ -21,7 +21,7 @@ public class FormResponse extends Response {
     }
 
     private void saveDataIfNeeded() {
-        if (!updatingMethods().contains(request.getMethod())) {
+        if (!updatingMethods().contains(request.getMethod().name())) {
             return;
         }
         for (String key : request.dataKeys()) {
