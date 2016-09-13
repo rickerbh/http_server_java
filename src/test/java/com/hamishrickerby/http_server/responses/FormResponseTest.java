@@ -15,29 +15,41 @@ import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertR
 public class FormResponseTest extends TestCase {
 
     public void testFormPostResponseCode() {
-        Request request = new Request(Method.POST.name() + " /form HTTP/1.1");
-        Response response = new FormResponse(request, null);
-        assertResponseCodeEquals("200", response);
+        String[] methods = {Method.POST.name(), Method.PUT.name()};
+        for (String method : methods) {
+            Request request = new Request(method + " /form HTTP/1.1");
+            Response response = new FormResponse(request, null);
+            assertResponseCodeEquals("200", response);
+        }
     }
 
     public void testReason() {
-        Request request = new Request(Method.POST.name() + " /form HTTP/1.1");
-        Response response = new FormResponse(request, null);
-        assertResponseReasonEquals("OK", response);
+        String[] methods = {Method.POST.name(), Method.PUT.name()};
+        for (String method : methods) {
+            Request request = new Request(method + " /form HTTP/1.1");
+            Response response = new FormResponse(request, null);
+            assertResponseReasonEquals("OK", response);
+        }
     }
 
     public void testRespondsTo() {
-        Request request = new Request(Method.POST.name() + " /form HTTP/1.1");
-        assertTrue(FormResponse.respondsTo(request));
-        request = new Request(Method.POST.name() + " /no-form HTTP/1.1");
-        assertFalse(FormResponse.respondsTo(request));
+        String[] methods = {Method.POST.name(), Method.PUT.name()};
+        for (String method : methods) {
+            Request request = new Request(method + " /form HTTP/1.1");
+            assertTrue(FormResponse.respondsTo(request));
+            request = new Request(method + " /no-form HTTP/1.1");
+            assertFalse(FormResponse.respondsTo(request));
+        }
     }
 
     public void testPostBodyIsEmpty() {
-        Request request = new Request(Method.POST.name() + " /form HTTP/1.1\r\n\r\nkey=value\r\n");
-        FormStore store = new MemoryFormStore();
-        Response response = new FormResponse(request, store);
-        assertEquals(0, response.body().length);
+        String[] methods = {Method.POST.name(), Method.PUT.name()};
+        for (String method : methods) {
+            Request request = new Request(method + " /form HTTP/1.1\r\n\r\nkey=value\r\n");
+            FormStore store = new MemoryFormStore();
+            Response response = new FormResponse(request, store);
+            assertEquals(0, response.body().length);
+        }
     }
 
     public void testDataNotSavedOnGet() {
