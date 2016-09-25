@@ -68,4 +68,12 @@ public class FormResponseTest extends TestCase {
         assertTrue(responseBody.contains("key=value"));
     }
 
+    public void testDataWipedOnDelete() {
+        FormStore store = new MemoryFormStore();
+        Request request = new Request(Method.POST.name() + " /form HTTP/1.1\r\n\r\nkey=value\r\n");
+        new FormResponse(request, store);
+        new FormResponse(new Request(Method.DELETE.name() + " /form HTTP/1.1"), store);
+        assertEquals("", store.read("key"));
+    }
+
 }

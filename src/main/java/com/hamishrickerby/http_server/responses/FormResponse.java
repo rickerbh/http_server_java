@@ -18,6 +18,7 @@ public class FormResponse extends Response {
         super(request);
 
         Method[] supportedMethods = {
+                Method.DELETE,
                 Method.GET,
                 Method.OPTIONS,
                 Method.POST,
@@ -30,11 +31,14 @@ public class FormResponse extends Response {
     }
 
     private void saveDataIfNeeded() {
-        if (!updatingMethods().contains(request.getMethod().name())) {
+        if (request.getMethod().equals(Method.DELETE)) {
+            store.clear();
+        } else if (!updatingMethods().contains(request.getMethod().name())) {
             return;
-        }
-        for (String key : request.dataKeys()) {
-            store.write(key, request.readData(key));
+        } else {
+            for (String key : request.dataKeys()) {
+                store.write(key, request.readData(key));
+            }
         }
     }
 
