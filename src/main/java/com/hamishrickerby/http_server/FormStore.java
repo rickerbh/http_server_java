@@ -11,4 +11,6 @@ public interface FormStore {
     void write(String key, String value);
 
     Set<String> keys();
+
+    void clear();
 }

@@ -33,4 +33,14 @@ public class MemoryFormStoreTest extends TestCase {
         assertTrue(store.keys().contains(key1));
         assertTrue(store.keys().contains(key2));
     }
+
+    public void testStoreSupportsDeletion() {
+        FormStore store = new MemoryFormStore();
+        String key = "myKey";
+        String value = "myValue";
+        store.write(key, value);
+        store.clear();
+        assertEquals("", store.read("myKey"));
+    }
+
 }

@@ -28,4 +28,9 @@ public class MemoryFormStore implements FormStore {
     public Set<String> keys() {
         return store.keySet();
     }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
 }
