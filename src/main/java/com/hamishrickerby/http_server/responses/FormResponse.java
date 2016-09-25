@@ -4,6 +4,7 @@ import com.hamishrickerby.http_server.FormStore;
 import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class FormResponse extends Response {
         super(request);
 
         Method[] supportedMethods = {
+                Method.DELETE,
                 Method.GET,
                 Method.OPTIONS,
                 Method.POST,
@@ -29,11 +31,14 @@ public class FormResponse extends Response {
     }
 
     private void saveDataIfNeeded() {
-        if (!updatingMethods().contains(request.getMethod().name())) {
+        if (request.getMethod().equals(Method.DELETE)) {
+            store.clear();
+        } else if (!updatingMethods().contains(request.getMethod().name())) {
             return;
-        }
-        for (String key : request.dataKeys()) {
-            store.write(key, request.readData(key));
+        } else {
+            for (String key : request.dataKeys()) {
+                store.write(key, request.readData(key));
+            }
         }
     }
 
@@ -49,8 +54,18 @@ public class FormResponse extends Response {
     @Override
     protected byte[] body() {
         switch (request.getMethod()) {
+            case GET:
+                return getFormData();
             default:
                 return new byte[0];
         }
+    }
+
+    private byte[] getFormData() {
+        StringBuilder builder = new StringBuilder();
+        for (String key : store.keys()) {
+            builder.append(MessageFormat.format("{0}={1}\r\n", key, store.read(key)));
+        }
+        return builder.toString().getBytes();
     }
 }
