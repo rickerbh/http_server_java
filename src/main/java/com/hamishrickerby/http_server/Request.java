@@ -19,7 +19,11 @@ public class Request {
     public Request(String inputText) {
         requestString = inputText;
         Scanner s = new Scanner(inputText);
-        method = Method.valueOf(s.next());
+        try {
+            method = Method.valueOf(s.next());
+        } catch (IllegalArgumentException e) {
+            method = Method.UNKNOWN;
+        }
         path = Paths.get(s.next()).normalize().toString();
         version = s.next();
 

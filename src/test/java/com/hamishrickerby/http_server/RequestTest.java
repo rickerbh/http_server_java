@@ -119,4 +119,10 @@ public class RequestTest extends TestCase {
         Request request = new Request(requestText);
         assertEquals(2, request.dataKeys().size());
     }
+
+    public void testRequestHandlesBogusMethodWithoutCrashing() {
+        Request request = new Request("BOGUS / HTTP/1.1");
+        assertEquals(Method.UNKNOWN, request.getMethod());
+    }
+
 }
