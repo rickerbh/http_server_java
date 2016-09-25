@@ -9,7 +9,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Four Eight Teen
 - [X] Four Oh Four
 - [X] Image Content
-- [ ] Method Not Allowed
+- [X] Method Not Allowed
 - [ ] Parameter Decode
 - [X] Partial Content
 - [ ] Patch With ETag
