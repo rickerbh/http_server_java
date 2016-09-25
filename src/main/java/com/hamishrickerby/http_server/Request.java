@@ -12,8 +12,10 @@ public class Request {
     String requestString;
     Method method;
     String path;
+    Parameters parameters;
     String version;
     Headers headers;
+
     Map<String, String> data;
 
     public Request(String inputText) {
@@ -24,7 +26,10 @@ public class Request {
         } catch (IllegalArgumentException e) {
             method = Method.UNKNOWN;
         }
-        path = Paths.get(s.next()).normalize().toString();
+
+        parameters = new Parameters();
+        parsePathAndParameters(Paths.get(s.next()).normalize().toString());
+
         version = s.next();
 
         // Move the scanner to the next line if there is one for headers/data.
@@ -37,6 +42,14 @@ public class Request {
 
         data = new HashMap<>();
         parseOutData(s);
+    }
+
+    private void parsePathAndParameters(String pathParams) {
+        String[] splitPathParams = pathParams.split("\\?");
+        path = splitPathParams[0];
+        if (splitPathParams.length > 1) {
+            parameters.parse(splitPathParams[1]);
+        }
     }
 
     private void parseOutHeaders(Scanner scanner) {
@@ -68,6 +81,10 @@ public class Request {
             String[] parts = dataScanner.next().split("=");
             data.put(parts[0], parts[1]);
         }
+    }
+
+    public Parameters getParameters() {
+        return parameters;
     }
 
     public Method getMethod() {

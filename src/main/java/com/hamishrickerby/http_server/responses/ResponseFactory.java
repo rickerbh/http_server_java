@@ -29,6 +29,8 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
+        } else if (ParametersEchoResponse.respondsTo(request)) {
+            response = new ParametersEchoResponse(request);
         } else if (EmptyResponse.respondsTo(request, "/method_options")) {
             response = new EmptyResponse(request);
             Method[] supportedMethods = {
