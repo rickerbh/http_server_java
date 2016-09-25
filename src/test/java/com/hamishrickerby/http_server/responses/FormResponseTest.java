@@ -59,4 +59,13 @@ public class FormResponseTest extends TestCase {
         assertEquals("", store.read("key"));
     }
 
+    public void testDataReturnedOnGet() {
+        FormStore store = new MemoryFormStore();
+        Request request = new Request(Method.POST.name() + " /form HTTP/1.1\r\n\r\nkey=value\r\n");
+        new FormResponse(request, store);
+        Response response = new FormResponse(new Request(Method.GET.name() + " /form HTTP/1.1"), store);
+        String responseBody = new String(response.body());
+        assertTrue(responseBody.contains("key=value"));
+    }
+
 }
