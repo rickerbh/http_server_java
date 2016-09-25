@@ -95,5 +95,12 @@ public class ResponseFactoryTest extends TestCase {
         response = factory.makeResponse(request);
         assertTrue((response instanceof EmptyResponse));
     }
+
+    public void testResponseIsEcho() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources", null);
+        Request request = new Request(Method.GET.name() + " /parameters?1234=4312 HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof ParametersEchoResponse));
+    }
 }
 
