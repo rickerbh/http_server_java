@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.MemoryFormStore;
+import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.auth.RequestAuthenticator;
 import junit.framework.TestCase;
@@ -82,6 +83,17 @@ public class ResponseFactoryTest extends TestCase {
         Request request = new Request("POST /form HTTP/1.1\r\n\r\nkey=value&abc=123\r\n");
         Response response = factory.makeResponse(request);
         assertTrue((response instanceof FormResponse));
+    }
+
+    public void testResponseIsEmptyForMethodOptions() {
+        ResponseFactory factory = new ResponseFactory("./src/test/resources", null);
+        Request request = new Request(Method.OPTIONS.name() + " /method_options HTTP/1.1");
+        Response response = factory.makeResponse(request);
+        assertTrue((response instanceof EmptyResponse));
+
+        request = new Request(Method.OPTIONS.name() + " /method_options2 HTTP/1.1");
+        response = factory.makeResponse(request);
+        assertTrue((response instanceof EmptyResponse));
     }
 }
 

@@ -1,9 +1,14 @@
 package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.Headers;
+import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by rickerbh on 17/08/2016.
@@ -11,9 +16,13 @@ import java.io.IOException;
 public abstract class Response {
     Request request;
     private static String CR_LF = "\r\n";
+    protected List<Method> supportedMethods;
 
     public Response(Request request) {
         this.request = request;
+        supportedMethods = new ArrayList<>();
+        supportedMethods.add(Method.HEAD);
+        supportedMethods.add(Method.OPTIONS);
     }
 
     public byte[] getBytes() {
@@ -22,6 +31,7 @@ public abstract class Response {
 
         switch (request.getMethod()) {
             case HEAD:
+            case OPTIONS:
                 body = new byte[0];
                 break;
             default:
@@ -61,9 +71,23 @@ public abstract class Response {
     }
 
     protected String[] headers() {
-        return new String[0];
+        switch (request.getMethod()) {
+            case OPTIONS:
+                Headers headers = new Headers();
+                List<String> methods = getSupportedMethods()
+                        .stream()
+                        .map(Method::name)
+                        .collect(Collectors.toList());
+                headers.put("Allow", String.join(",", methods));
+                return headers.list().stream().toArray(String[]::new);
+            default:
+                return new String[0];
+        }
     }
 
     abstract protected byte[] body();
 
+    protected List<Method> getSupportedMethods() {
+        return supportedMethods;
+    }
 }

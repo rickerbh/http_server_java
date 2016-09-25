@@ -1,10 +1,9 @@
 package com.hamishrickerby.http_server.responses;
 
-import com.hamishrickerby.http_server.FileDirectoryServer;
-import com.hamishrickerby.http_server.FormStore;
-import com.hamishrickerby.http_server.Logger;
-import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.*;
 import com.hamishrickerby.http_server.auth.Authenticator;
+
+import java.util.Arrays;
 
 /**
  * Created by rickerbh on 17/08/2016.
@@ -30,6 +29,21 @@ public class ResponseFactory {
             response = new RedirectResponse(request);
         } else if (FourEightTeenResponse.existsFor(request)) {
             response = new FourEightTeenResponse(request);
+        } else if (EmptyResponse.respondsTo(request, "/method_options")) {
+            response = new EmptyResponse(request);
+            Method[] supportedMethods = {
+                    Method.GET,
+                    Method.HEAD,
+                    Method.POST,
+                    Method.OPTIONS,
+                    Method.PUT};
+            response.supportedMethods = Arrays.asList(supportedMethods);
+        } else if (EmptyResponse.respondsTo(request, "/method_options2")) {
+            response = new EmptyResponse(request);
+            Method[] supportedMethods = {
+                    Method.GET,
+                    Method.OPTIONS};
+            response.supportedMethods = Arrays.asList(supportedMethods);
         } else if (FormResponse.respondsTo(request)) {
             response = new FormResponse(request, store);
         } else if (LogsResponse.respondsTo(request)) {

@@ -1,8 +1,13 @@
 package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.mocks.FakeResponse;
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
 import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseReasonEquals;
@@ -34,12 +39,34 @@ public class ResponseTest extends TestCase {
         assertTrue(responseText.contains("visible"));
     }
 
-    public void testHeadResponseBody() {
-        FakeResponse response = new FakeResponse(new Request("HEAD / HTTP/1.1"));
-        response.setBody("I should be invisible".getBytes());
+    public void testHeadAndOptionResponseBody() {
+        String[] methods = {Method.HEAD.name(), Method.OPTIONS.name()};
+        for (String method : methods) {
+            FakeResponse response = new FakeResponse(new Request(method + " / HTTP/1.1"));
+            response.setBody("I should be invisible".getBytes());
 
-        byte[] responseBytes = response.getBytes();
-        String responseText = new String(responseBytes);
-        assertFalse(responseText.contains("invisible"));
+            byte[] responseBytes = response.getBytes();
+            String responseText = new String(responseBytes);
+            assertFalse(responseText.contains("invisible"));
+        }
     }
+
+    public void testSupportedMethodsReturnHeadAndOptionAsDefaults() {
+        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        List<Method> methods = response.getSupportedMethods();
+        assertTrue(methods.contains(Method.HEAD));
+        assertTrue(methods.contains(Method.OPTIONS));
+    }
+
+    public void testDefaultHeadersAreEmpty() {
+        FakeResponse response = new FakeResponse(new Request(Method.GET.name() + " / HTTP/1.1"));
+        assertEquals(0, response.headers().length);
+    }
+
+    public void testOptionHeadersContainHeadAndOptions() {
+        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        List<String> headers = new ArrayList<>(Arrays.asList(response.headers()));
+        assertTrue(headers.contains("Allow: HEAD,OPTIONS"));
+    }
+
 }

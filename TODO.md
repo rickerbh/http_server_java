@@ -17,7 +17,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Redirect Path
 - [X] Simple Get
 - [X] Simple Head
-- [ ] Simple Option
+- [X] Simple Option
 - [X] Simple Post
 - [X] Simple Put
 - [X] Time To Complete
