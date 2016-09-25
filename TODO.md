@@ -10,7 +10,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Four Oh Four
 - [X] Image Content
 - [X] Method Not Allowed
-- [ ] Parameter Decode
+- [X] Parameter Decode
 - [X] Partial Content
 - [ ] Patch With ETag
 - [ ] Post Get Put Get Delete Get
