@@ -54,7 +54,7 @@ public class ResponseTest extends TestCase {
     public void testSupportedMethodsReturnHeadAndOptionAsDefaults() {
         FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
         List<Method> methods = response.getSupportedMethods();
-        assertTrue(methods.contains(Method.HEAD));
+        assertTrue(methods.contains(Method.GET));
         assertTrue(methods.contains(Method.OPTIONS));
     }
 
@@ -66,7 +66,18 @@ public class ResponseTest extends TestCase {
     public void testOptionHeadersContainHeadAndOptions() {
         FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
         List<String> headers = new ArrayList<>(Arrays.asList(response.headers()));
-        assertTrue(headers.contains("Allow: HEAD,OPTIONS"));
+        assertTrue(headers.contains("Allow: GET,OPTIONS"));
     }
 
+    public void testValidatedResponseCodeValidatesMethod() {
+        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        assertEquals(200, response.validatedCode());
+        response = new FakeResponse(new Request(Method.POST.name() + " / HTTP/1.1"));
+        assertEquals(405, response.validatedCode());
+    }
+
+    public void testBogusRequestReturns405Response() {
+        FakeResponse response = new FakeResponse(new Request("BOGUS / HTTP/1.1"));
+        assertEquals(405, response.validatedCode());
+    }
 }

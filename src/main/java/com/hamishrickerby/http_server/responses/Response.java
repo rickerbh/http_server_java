@@ -21,7 +21,7 @@ public abstract class Response {
     public Response(Request request) {
         this.request = request;
         supportedMethods = new ArrayList<>();
-        supportedMethods.add(Method.HEAD);
+        supportedMethods.add(Method.GET);
         supportedMethods.add(Method.OPTIONS);
     }
 
@@ -53,13 +53,20 @@ public abstract class Response {
         StringBuilder b = new StringBuilder();
         b.append(request.getVersion())
                 .append(" ")
-                .append(code())
+                .append(validatedCode())
                 .append(" ")
                 .append(reason())
                 .append(CR_LF)
                 .append(String.join(CR_LF, headers()))
                 .append(CR_LF);
         return b.toString();
+    }
+
+    protected int validatedCode() {
+        if (getSupportedMethods().contains(request.getMethod())) {
+            return code();
+        }
+        return 405;
     }
 
     protected int code() {

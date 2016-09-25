@@ -15,6 +15,14 @@ public class FormResponse extends Response {
 
     public FormResponse(Request request, FormStore store) {
         super(request);
+
+        Method[] supportedMethods = {
+                Method.GET,
+                Method.OPTIONS,
+                Method.POST,
+                Method.PUT};
+        this.supportedMethods = Arrays.asList(supportedMethods);
+
         this.store = store;
 
         saveDataIfNeeded();
