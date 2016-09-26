@@ -84,6 +84,7 @@ public class RequestTest extends TestCase {
         assertEquals("value", request.readData("key"));
         assertEquals("123", request.readData("abc"));
         assertEquals("", request.readData("not-here"));
+        assertEquals("key=value&abc=123", new String(request.getDataContent()));
     }
 
     public void testRequestDataIsParsedOutWithHeaders() {
