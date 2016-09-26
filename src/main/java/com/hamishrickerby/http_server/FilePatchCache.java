@@ -21,4 +21,8 @@ public class FilePatchCache {
     public FilePatch retrieve(String path) {
         return cache.get(path);
     }
+
+    public boolean contains(String path) {
+        return cache.get(path) != null;
+    }
 }
