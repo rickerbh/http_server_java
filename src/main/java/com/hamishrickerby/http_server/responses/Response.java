@@ -22,6 +22,7 @@ public abstract class Response {
         this.request = request;
         supportedMethods = new ArrayList<>();
         supportedMethods.add(Method.GET);
+        supportedMethods.add(Method.HEAD);
         supportedMethods.add(Method.OPTIONS);
     }
 

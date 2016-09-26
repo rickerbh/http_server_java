@@ -55,6 +55,7 @@ public class ResponseTest extends TestCase {
         FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
         List<Method> methods = response.getSupportedMethods();
         assertTrue(methods.contains(Method.GET));
+        assertTrue(methods.contains(Method.HEAD));
         assertTrue(methods.contains(Method.OPTIONS));
     }
 
@@ -66,7 +67,7 @@ public class ResponseTest extends TestCase {
     public void testOptionHeadersContainHeadAndOptions() {
         FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
         List<String> headers = new ArrayList<>(Arrays.asList(response.headers()));
-        assertTrue(headers.contains("Allow: GET,OPTIONS"));
+        assertTrue(headers.contains("Allow: GET,HEAD,OPTIONS"));
     }
 
     public void testValidatedResponseCodeValidatesMethod() {
