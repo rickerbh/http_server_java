@@ -12,7 +12,7 @@ Below are the acceptance tests from https://github.com/8thlight/cob_spec, and th
 - [X] Method Not Allowed
 - [X] Parameter Decode
 - [X] Partial Content
-- [ ] Patch With ETag
+- [X] Patch With ETag
 - [X] Post Get Put Get Delete Get
 - [X] Redirect Path
 - [X] Simple Get
