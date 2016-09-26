@@ -10,7 +10,7 @@ public class PartialResponseTest extends TestCase {
     String rootDir = "./src/test/resources";
 
     public void testResponseCodeIs206() {
-        Response response = new PartialFileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"), rootDir);
+        Response response = new PartialFileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"), rootDir, null);
         assertEquals(206, response.code());
     }
 
@@ -29,7 +29,7 @@ public class PartialResponseTest extends TestCase {
                 .append("\r\n")
                 .toString();
         Request request = new Request(requestString);
-        Response response = new PartialFileContentsResponse(request, rootDir);
+        Response response = new PartialFileContentsResponse(request, rootDir, null);
         return new String(response.body());
     }
 
@@ -49,20 +49,20 @@ public class PartialResponseTest extends TestCase {
                 .append("Range: bytes=0-10\r\n")
                 .toString();
         Request request = new Request(requestString);
-        assertTrue(PartialFileContentsResponse.isValidRangeRequest(request, rootDir));
+        assertTrue(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
 
         requestString = new StringBuilder()
                 .append("GET /no-exist HTTP/1.1\r\n")
                 .append("Range: bytes=0-10\r\n")
                 .toString();
         request = new Request(requestString);
-        assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir));
+        assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
 
         requestString = new StringBuilder()
                 .append("GET /subdirectory/file.txt HTTP/1.1\r\n")
                 .toString();
         request = new Request(requestString);
-        assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir));
+        assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
     }
 
 }

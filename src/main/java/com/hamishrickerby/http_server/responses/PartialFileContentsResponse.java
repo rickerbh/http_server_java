@@ -1,5 +1,6 @@
 package com.hamishrickerby.http_server.responses;
 
+import com.hamishrickerby.http_server.FilePatchCache;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.RequestRange;
 
@@ -9,8 +10,8 @@ import com.hamishrickerby.http_server.RequestRange;
 public class PartialFileContentsResponse extends FileContentsResponse {
     private static String RANGE_HEADER = "Range";
 
-    public PartialFileContentsResponse(Request request, String rootPath) {
-        super(request, rootPath);
+    public PartialFileContentsResponse(Request request, String rootPath, FilePatchCache cache) {
+        super(request, rootPath, cache);
     }
 
     @Override
@@ -41,8 +42,8 @@ public class PartialFileContentsResponse extends FileContentsResponse {
         return 206;
     }
 
-    public static boolean isValidRangeRequest(Request request, String rootPath) {
-        boolean isValidFile = FileContentsResponse.fileExists(rootPath, request.getPath());
+    public static boolean isValidRangeRequest(Request request, String rootPath, FilePatchCache cache) {
+        boolean isValidFile = FileContentsResponse.fileExists(rootPath, request.getPath(), cache);
         boolean hasRangeHeader = !request.getHeader(RANGE_HEADER).isEmpty();
         return isValidFile && hasRangeHeader;
     }

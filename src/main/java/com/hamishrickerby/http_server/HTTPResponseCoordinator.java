@@ -15,6 +15,7 @@ public class HTTPResponseCoordinator implements ResponseCoordinator {
     public HTTPResponseCoordinator(String rootDirectory, Logger logger) {
         responseFactory = new ResponseFactory(rootDirectory, logger);
         responseFactory.setFormStore(new MemoryFormStore());
+        responseFactory.setFilePatchCache(new FilePatchCache());
         this.logger = logger;
     }
 

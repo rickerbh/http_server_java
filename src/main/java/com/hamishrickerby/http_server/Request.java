@@ -2,6 +2,7 @@ package com.hamishrickerby.http_server;
 
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by rickerbh on 16/08/2016.
@@ -17,6 +18,7 @@ public class Request {
     Headers headers;
 
     Map<String, String> data;
+    byte[] dataContent;
 
     public Request(String inputText) {
         requestString = inputText;
@@ -69,17 +71,23 @@ public class Request {
     }
 
     private void parseOutData(Scanner scanner) {
-        if (!scanner.hasNextLine()) {
+        Pattern restOfContentPattern = Pattern.compile("(.*|\\s+)", Pattern.MULTILINE);
+        if (!scanner.hasNext(restOfContentPattern)) {
             return;
         }
-        String line = scanner.nextLine();
+        scanner.useDelimiter(CRLF + CRLF);
 
-        Scanner dataScanner = new Scanner(line);
+        String content = scanner.next().trim();
+        dataContent = content.getBytes();
+
+        Scanner dataScanner = new Scanner(content);
         dataScanner.useDelimiter("&");
 
         while (dataScanner.hasNext()) {
             String[] parts = dataScanner.next().split("=");
-            data.put(parts[0], parts[1]);
+            if (parts.length >= 2) {
+                data.put(parts[0], parts[1]);
+            }
         }
     }
 
@@ -152,4 +160,7 @@ public class Request {
         return data.keySet();
     }
 
+    public byte[] getDataContent() {
+        return dataContent;
+    }
 }
