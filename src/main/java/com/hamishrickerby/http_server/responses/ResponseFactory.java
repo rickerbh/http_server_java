@@ -14,6 +14,7 @@ public class ResponseFactory {
 
     Authenticator authenticator;
     FormStore store;
+    FilePatchCache cache;
 
     public ResponseFactory(String rootPath, Logger logger) {
         this.rootPath = rootPath;
@@ -50,10 +51,10 @@ public class ResponseFactory {
             response = new FormResponse(request, store);
         } else if (LogsResponse.respondsTo(request)) {
             response = new LogsResponse(request, logger);
-        } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath)) {
-            response = new PartialFileContentsResponse(request, rootPath);
-        } else if (FileContentsResponse.fileExists(rootPath, request.getPath())) {
-            response = new FileContentsResponse(request, rootPath);
+        } else if (PartialFileContentsResponse.isValidRangeRequest(request, rootPath, cache)) {
+            response = new PartialFileContentsResponse(request, rootPath, cache);
+        } else if (FileContentsResponse.fileExists(rootPath, request.getPath(), cache)) {
+            response = new FileContentsResponse(request, rootPath, cache);
         } else if (isDirectoryResponse(request)) {
             response = new DirectoryListingResponse(request, rootPath);
         } else {
@@ -73,6 +74,10 @@ public class ResponseFactory {
     private boolean isDirectoryResponse(Request request) {
         FileDirectoryServer server = new FileDirectoryServer(rootPath);
         return server.directoryExists(request.getPath());
+    }
+
+    public void setFilePatchCache(FilePatchCache cache) {
+        this.cache = cache;
     }
 
 }
