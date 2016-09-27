@@ -70,7 +70,6 @@ public class FormResponseTest extends TestCase {
     public void testDataNotSavedOnGet() {
         FormStore store = new MemoryFormStore();
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/form")
                 .setContent("key=value")
                 .toRequest();
@@ -88,7 +87,6 @@ public class FormResponseTest extends TestCase {
         new FormResponse(request, store);
 
         request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/form")
                 .toRequest();
         Response response = new FormResponse(request, store);

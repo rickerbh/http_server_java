@@ -23,7 +23,6 @@ public class FileContentsResponseTest extends TestCase {
 
     public void testFileContentsRetrieved() {
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/subdirectory/file.txt")
                 .toRequest();
         FileContentsResponse response = new FileContentsResponse(request, rootDir, null);
@@ -44,7 +43,6 @@ public class FileContentsResponseTest extends TestCase {
     public void testFileContentsRetrievedBypassingCache() {
         FilePatchCache cache = new FilePatchCache();
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/subdirectory/file.txt")
                 .toRequest();
         FileContentsResponse response = new FileContentsResponse(request, rootDir, cache);
@@ -74,7 +72,6 @@ public class FileContentsResponseTest extends TestCase {
         cache.store(new FilePatch(path, "etag", contents));
 
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath(path)
                 .toRequest();
         FileContentsResponse response = new FileContentsResponse(request, rootDir, cache);
@@ -99,7 +96,6 @@ public class FileContentsResponseTest extends TestCase {
         assertResponseReasonEquals("No Content", response);
 
         request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath(path)
                 .toRequest();
 
