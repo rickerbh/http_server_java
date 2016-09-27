@@ -2,6 +2,7 @@ package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import com.hamishrickerby.http_server.mocks.FakeResponse;
 import junit.framework.TestCase;
 
@@ -52,7 +53,8 @@ public class ResponseTest extends TestCase {
     }
 
     public void testSupportedMethodsReturnHeadAndOptionAsDefaults() {
-        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        Request request = new RequestBuilder().setMethod(Method.OPTIONS).toRequest();
+        FakeResponse response = new FakeResponse(request);
         List<Method> methods = response.getSupportedMethods();
         assertTrue(methods.contains(Method.GET));
         assertTrue(methods.contains(Method.HEAD));
@@ -60,19 +62,23 @@ public class ResponseTest extends TestCase {
     }
 
     public void testDefaultHeadersAreEmpty() {
-        FakeResponse response = new FakeResponse(new Request(Method.GET.name() + " / HTTP/1.1"));
+        Request request = new RequestBuilder().toRequest();
+        FakeResponse response = new FakeResponse(request);
         assertEquals(0, response.headers().length);
     }
 
     public void testOptionHeadersContainHeadAndOptions() {
-        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        Request request = new RequestBuilder().setMethod(Method.OPTIONS).toRequest();
+        FakeResponse response = new FakeResponse(request);
         List<String> headers = new ArrayList<>(Arrays.asList(response.headers()));
         assertTrue(headers.contains("Allow: GET,HEAD,OPTIONS"));
     }
 
     public void testValidatedResponseCodeValidatesMethod() {
-        FakeResponse response = new FakeResponse(new Request(Method.OPTIONS.name() + " / HTTP/1.1"));
+        Request request = new RequestBuilder().setMethod(Method.OPTIONS).toRequest();
+        FakeResponse response = new FakeResponse(request);
         assertEquals(200, response.validatedCode());
+        request = new RequestBuilder().setMethod(Method.POST).toRequest();
         response = new FakeResponse(new Request(Method.POST.name() + " / HTTP/1.1"));
         assertEquals(405, response.validatedCode());
     }

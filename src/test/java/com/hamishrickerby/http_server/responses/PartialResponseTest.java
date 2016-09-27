@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 /**
@@ -10,7 +11,8 @@ public class PartialResponseTest extends TestCase {
     String rootDir = "./src/test/resources";
 
     public void testResponseCodeIs206() {
-        Response response = new PartialFileContentsResponse(new Request("GET /subdirectory/file.txt HTTP/1.1"), rootDir, null);
+        Request request = new RequestBuilder().setPath("/subdirectory/file.txt").toRequest();
+        Response response = new PartialFileContentsResponse(request, rootDir, null);
         assertEquals(206, response.code());
     }
 
@@ -20,15 +22,16 @@ public class PartialResponseTest extends TestCase {
     }
 
     private String rangeBody(String start, String end) {
-        String requestString = new StringBuilder()
-                .append("GET /subdirectory/file.txt HTTP/1.1\r\n")
+        String headerString = new StringBuilder()
                 .append("Range: bytes=")
                 .append(start)
                 .append("-")
                 .append(end)
-                .append("\r\n")
                 .toString();
-        Request request = new Request(requestString);
+
+        Request request = new RequestBuilder()
+                .setPath("/subdirectory/file.txt")
+                .addHeader(headerString).toRequest();
         Response response = new PartialFileContentsResponse(request, rootDir, null);
         return new String(response.body());
     }
@@ -44,24 +47,22 @@ public class PartialResponseTest extends TestCase {
     }
 
     public void testResponseValidity() {
-        String requestString = new StringBuilder()
-                .append("GET /subdirectory/file.txt HTTP/1.1\r\n")
-                .append("Range: bytes=0-10\r\n")
-                .toString();
-        Request request = new Request(requestString);
+        Request request = new RequestBuilder()
+                .setPath("/subdirectory/file.txt")
+                .addHeader("Range: bytes=0-10")
+                .toRequest();
         assertTrue(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
 
-        requestString = new StringBuilder()
-                .append("GET /no-exist HTTP/1.1\r\n")
-                .append("Range: bytes=0-10\r\n")
-                .toString();
-        request = new Request(requestString);
+        request = new RequestBuilder()
+                .setPath("/no-exist")
+                .addHeader("Range: bytes=0-10")
+                .toRequest();
+
         assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
 
-        requestString = new StringBuilder()
-                .append("GET /subdirectory/file.txt HTTP/1.1\r\n")
-                .toString();
-        request = new Request(requestString);
+        request = new RequestBuilder()
+                .setPath("/subdirectory/file.txt")
+                .toRequest();
         assertFalse(PartialFileContentsResponse.isValidRangeRequest(request, rootDir, null));
     }
 

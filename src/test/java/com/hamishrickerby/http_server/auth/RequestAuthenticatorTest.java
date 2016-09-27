@@ -1,6 +1,8 @@
 package com.hamishrickerby.http_server.auth;
 
+import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 /**
@@ -29,13 +31,25 @@ public class RequestAuthenticatorTest extends TestCase {
         RequestAuthenticator authenticator = new RequestAuthenticator();
         authenticator.addCredentials("user", "pass");
         authenticator.addRoute("/protected");
-        Request request = new Request("GET /protected HTTP/1.1\r\nAuthorization: Basic dXNlcjpwYXNz\r\n");
+        Request request = new RequestBuilder()
+                .setMethod(Method.GET)
+                .setPath("/protected")
+                .addHeader("Authorization: Basic dXNlcjpwYXNz")
+                .toRequest();
         assertTrue(authenticator.authenticate(request));
 
-        request = new Request("GET /protected HTTP/1.1\r\nAuthorization: Basic dXNlcjpmYWls\r\n");
+        request = new RequestBuilder()
+                .setMethod(Method.GET)
+                .setPath("/protected")
+                .addHeader("Authorization: Basic dXNlcjpmYWls")
+                .toRequest();
         assertFalse(authenticator.authenticate(request));
 
-        request = new Request("GET /unprotected HTTP/1.1\r\nAuthorization: Basic dXNlcjpmYWls\r\n");
+        request = new RequestBuilder()
+                .setMethod(Method.GET)
+                .setPath("/unprotected")
+                .addHeader("Authorization: Basic dXNlcjpmYWls")
+                .toRequest();
         assertTrue(authenticator.authenticate(request));
     }
 
@@ -43,7 +57,10 @@ public class RequestAuthenticatorTest extends TestCase {
         RequestAuthenticator authenticator = new RequestAuthenticator();
         authenticator.addCredentials("user", "pass");
         authenticator.addRoute("/protected");
-        Request request = new Request("GET /protected HTTP/1.1\r\n");
+        Request request = new RequestBuilder()
+                .setMethod(Method.GET)
+                .setPath("/protected")
+                .toRequest();
         assertFalse(authenticator.authenticate(request));
 
     }

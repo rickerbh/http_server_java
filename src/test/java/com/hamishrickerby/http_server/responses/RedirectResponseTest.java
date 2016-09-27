@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
@@ -13,23 +14,27 @@ import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertR
  */
 public class RedirectResponseTest extends TestCase {
     public void testRedirectCodeIs302() {
-        RedirectResponse response = new RedirectResponse(new Request("GET /redirect HTTP/1.1"));
+        Request request = new RequestBuilder().setPath("/redirect").toRequest();
+        RedirectResponse response = new RedirectResponse(request);
         assertResponseCodeEquals("302", response);
     }
 
     public void testRedirectLocationIsLocalhost() {
-        RedirectResponse response = new RedirectResponse(new Request("GET /redirect HTTP/1.1"));
+        Request request = new RequestBuilder().setPath("/redirect").toRequest();
+        RedirectResponse response = new RedirectResponse(request);
         response.setRedirect("/redirect", "http://localhost/redirect-location");
         assertTrue(Arrays.asList(response.headers()).contains("Location: http://localhost/redirect-location"));
     }
 
     public void testUnknownRedirectPointsToRoot() {
-        RedirectResponse response = new RedirectResponse(new Request("GET /unconfigured HTTP/1.1"));
+        Request request = new RequestBuilder().setPath("/unconfigured").toRequest();
+        RedirectResponse response = new RedirectResponse(request);
         assertTrue(Arrays.asList(response.headers()).contains("Location: /"));
     }
 
     public void testRedirectHasEmptyBody() {
-        RedirectResponse response = new RedirectResponse(new Request("GET /redirect HTTP/1.1"));
+        Request request = new RequestBuilder().setPath("/redirect").toRequest();
+        RedirectResponse response = new RedirectResponse(request);
         assertEquals(0, response.body().length);
     }
 

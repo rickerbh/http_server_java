@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -21,7 +22,10 @@ public class DirectoryListingResponseTest extends TestCase {
     }
 
     private String getDirectoryListingForPath(String location) {
-        DirectoryListingResponse response = new DirectoryListingResponse(new Request("GET " + location + " HTTP/1.1"), "./src/test/resources");
+        Request request = new RequestBuilder()
+                .setPath(location)
+                .toRequest();
+        DirectoryListingResponse response = new DirectoryListingResponse(request, "./src/test/resources");
         return new String(response.body());
     }
 

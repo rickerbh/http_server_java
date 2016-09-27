@@ -1,6 +1,7 @@
 package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertResponseCodeEquals;
@@ -11,7 +12,9 @@ import static com.hamishrickerby.http_server.helpers.HTTPServerTestUtils.assertR
  */
 public class FourEightTeenResponseTest extends TestCase {
     public void testCoffeeEndpointHas418Response() {
-        Request request = new Request("GET /coffee HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setPath("/coffee")
+                .toRequest();
         Response response = new FourEightTeenResponse(request);
         assertResponseCodeEquals("418", response);
         String teapotResponse = "I'm a teapot";
@@ -21,7 +24,9 @@ public class FourEightTeenResponseTest extends TestCase {
     }
 
     public void testTeaEndpointHas200Response() {
-        Request request = new Request("GET /tea HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setPath("/tea")
+                .toRequest();
         Response response = new FourEightTeenResponse(request);
         assertResponseCodeEquals("200", response);
         assertResponseReasonEquals("OK", response);
@@ -29,17 +34,23 @@ public class FourEightTeenResponseTest extends TestCase {
     }
 
     public void testResponseHandlesCoffee() {
-        Request request = new Request("GET /coffee HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setPath("/coffee")
+                .toRequest();
         assertTrue(FourEightTeenResponse.existsFor(request));
     }
 
     public void testResponseHandlesTea() {
-        Request request = new Request("GET /tea HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setPath("/tea")
+                .toRequest();
         assertTrue(FourEightTeenResponse.existsFor(request));
     }
 
     public void testResponseDoesNotHandleCola() {
-        Request request = new Request("GET /cola HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setPath("/cola")
+                .toRequest();
         assertFalse(FourEightTeenResponse.existsFor(request));
     }
 }

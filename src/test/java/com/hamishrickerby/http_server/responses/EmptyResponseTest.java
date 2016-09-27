@@ -2,6 +2,7 @@ package com.hamishrickerby.http_server.responses;
 
 import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
+import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
 
 /**
@@ -10,7 +11,10 @@ import junit.framework.TestCase;
 public class EmptyResponseTest extends TestCase {
 
     public void testEndpointIsConfigurable() {
-        Request request = new Request(Method.OPTIONS.name() + " /testEndPoint HTTP/1.1");
+        Request request = new RequestBuilder()
+                .setMethod(Method.OPTIONS)
+                .setPath("/testEndPoint")
+                .toRequest();
         assertTrue(EmptyResponse.respondsTo(request, "/testEndPoint"));
         assertFalse(EmptyResponse.respondsTo(request, "/no-match"));
     }
