@@ -1,6 +1,5 @@
 package com.hamishrickerby.http_server.auth;
 
-import com.hamishrickerby.http_server.Method;
 import com.hamishrickerby.http_server.Request;
 import com.hamishrickerby.http_server.helpers.RequestBuilder;
 import junit.framework.TestCase;
@@ -32,21 +31,18 @@ public class RequestAuthenticatorTest extends TestCase {
         authenticator.addCredentials("user", "pass");
         authenticator.addRoute("/protected");
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/protected")
                 .addHeader("Authorization: Basic dXNlcjpwYXNz")
                 .toRequest();
         assertTrue(authenticator.authenticate(request));
 
         request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/protected")
                 .addHeader("Authorization: Basic dXNlcjpmYWls")
                 .toRequest();
         assertFalse(authenticator.authenticate(request));
 
         request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/unprotected")
                 .addHeader("Authorization: Basic dXNlcjpmYWls")
                 .toRequest();
@@ -58,7 +54,6 @@ public class RequestAuthenticatorTest extends TestCase {
         authenticator.addCredentials("user", "pass");
         authenticator.addRoute("/protected");
         Request request = new RequestBuilder()
-                .setMethod(Method.GET)
                 .setPath("/protected")
                 .toRequest();
         assertFalse(authenticator.authenticate(request));
